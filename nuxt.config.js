@@ -14,6 +14,18 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       { rel: 'stylesheet', href: '/css/styles.css' },
       { rel: 'stylesheet', href: '/css/feather.css' },
+      { rel: 'stylesheet', href: '/css/bootstrap.min.css' },
+    ],
+    script: [
+      { src: '/js/jquery.min.js' },
+      {
+        src:
+          'http://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js',
+      },
+      {
+        src:
+          'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js',
+      },
     ],
   },
   loading: { color: '#e26511' },

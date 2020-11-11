@@ -6,51 +6,36 @@
       <nav class="sidebar-nav" id="scroller">
         <ul id="sidebarnav">
           <li class="sidebar-item">
-            <a
+            <n-link
               class="sidebar-link sidebar-link"
-              href="index.html"
+              to="/dashboard"
               aria-expanded="false"
             >
               <i class="feather icon-home"></i>
-              <span class="hide-menu">Dashboard</span></a
+              <span class="hide-menu">Dashboard</span></n-link
             >
           </li>
+          <li class="list-divider"></li>
+          <li class="nav-small-cap">
+            <span class="hide-menu">Loans</span>
+          </li>
+
+          <li class="sidebar-item">
+            <n-link class="sidebar-link" to="/loans" aria-expanded="false"
+              ><i class="feather icon-bar-chart-2"></i
+              ><span class="hide-menu">My Loans</span></n-link
+            >
+          </li>
+          <li class="sidebar-item">
+            <n-link class="sidebar-link" to="/loan/apply" aria-expanded="false"
+              ><i class="feather icon-plus-circle"></i
+              ><span class="hide-menu">Apply</span></n-link
+            >
+          </li>
+
           <li class="list-divider"></li>
           <li class="nav-small-cap">
             <span class="hide-menu">Applications</span>
-          </li>
-
-          <li class="sidebar-item">
-            <a
-              class="sidebar-link"
-              href="ticket-list.html"
-              aria-expanded="false"
-              ><i class="feather icon-tag"></i
-              ><span class="hide-menu">Ticket List </span></a
-            >
-          </li>
-          <li class="sidebar-item">
-            <a
-              class="sidebar-link sidebar-link"
-              href="app-chat.html"
-              aria-expanded="false"
-              ><i class="feather icon-message-square"></i
-              ><span class="hide-menu">Chat</span></a
-            >
-          </li>
-          <li class="sidebar-item">
-            <a
-              class="sidebar-link sidebar-link"
-              href="app-calendar.html"
-              aria-expanded="false"
-              ><i class="feather icon-calendar"></i
-              ><span class="hide-menu">Calendar</span></a
-            >
-          </li>
-
-          <li class="list-divider"></li>
-          <li class="nav-small-cap">
-            <span class="hide-menu">Components</span>
           </li>
           <li class="sidebar-item">
             <a
@@ -370,7 +355,6 @@ export default {};
 <style>
 #scroller {
   height: 89vh;
-  margin: 25px;
   border-top: 1px solid #f5f5f5;
   border-bottom: 1px solid #f5f5f5;
   overflow: hidden;

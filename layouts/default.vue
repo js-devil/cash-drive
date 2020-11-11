@@ -29,9 +29,22 @@ export default {
       return (
         this.$route.name !== 'index' &&
         this.$route.name !== 'register' &&
-        this.$route.name !== 'login'
+        this.$route.name !== 'login' &&
+        !this.$route.name.includes('password')
       );
     },
   },
 };
 </script>
+
+<style>
+.btn-primary,
+.bg-primary {
+  background-color: #e26511 !important;
+}
+
+.bg-secondary,
+.btn-secondary {
+  background-color: #00162a !important;
+}
+</style>

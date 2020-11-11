@@ -2,6 +2,7 @@ export const state = () => ({
   user: {
     loggedIn: false,
   },
+  loan_application: {},
   loading: false,
 });
 

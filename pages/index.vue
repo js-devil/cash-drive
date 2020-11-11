@@ -29,11 +29,11 @@
                     <label class="text-dark" for="email">Email</label>
                     <input
                       id="email"
-                      class="form-control"
+                      class="form-control bg-white custom-radius custom-shadow border-0"
                       v-model="user.email"
                       type="email"
                       :disabled="loading"
-                      placeholder="enter your username"
+                      placeholder="enter your email address"
                     />
                   </div>
                 </div>
@@ -42,7 +42,7 @@
                     <label class="text-dark" for="pwd">Password</label>
                     <input
                       id="pwd"
-                      class="form-control"
+                      class="form-control bg-white custom-radius custom-shadow border-0"
                       type="password"
                       :disabled="loading"
                       v-model="user.password"
@@ -55,9 +55,15 @@
                     {{ loading ? 'Signing in...' : 'Sign In' }}
                   </button>
                 </div>
-                <div class="col-lg-12 text-center mt-5">
+                <div class="col-lg-12 text-left mt-5">
                   Don't have an account?
                   <n-link to="/register" class="text-danger"> Sign Up </n-link>
+                </div>
+                <div class="col-lg-12 text-left my-3">
+                  Forgot Password?
+                  <n-link to="/password/forgot" class="text-danger">
+                    Reset
+                  </n-link>
                 </div>
               </div>
             </form>

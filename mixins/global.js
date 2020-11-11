@@ -3,6 +3,8 @@ const imageUrl =
   'https://upload.wikimedia.org/wikipedia/commons/0/03/Forbidden_Symbol_Transparent.svg';
 import Swal from 'sweetalert2';
 
+import { mapState } from 'vuex';
+
 export default {
   methods: {
     ...mixins,
@@ -32,5 +34,10 @@ export default {
     },
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    ...mapState(['user']),
+    userNames() {
+      return `${this.user.first_name} ${this.user.last_name}`;
+    },
+  },
 };

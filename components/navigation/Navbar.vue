@@ -56,7 +56,7 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <span><i data-feather="bell" class="svg-icon"></i></span>
+              <span><i class="feather icon-bell svg-icon"></i></span>
               <span class="badge badge-primary notify-no rounded-circle"
                 >5</span
               >
@@ -73,7 +73,7 @@
                       class="message-item d-flex align-items-center border-bottom px-3 py-2"
                     >
                       <div class="btn btn-danger rounded-circle btn-circle">
-                        <i data-feather="airplay" class="text-white"></i>
+                        <i class="feather icon-airplay text-white"></i>
                       </div>
                       <div class="w-75 d-inline-block v-middle pl-2">
                         <h6 class="message-title mb-0 mt-1">Luanch Admin</h6>
@@ -92,7 +92,7 @@
                     >
                       <span
                         class="btn btn-success text-white rounded-circle btn-circle"
-                        ><i data-feather="calendar" class="text-white"></i
+                        ><i class="feather icon-calendar text-white"></i
                       ></span>
                       <div class="w-75 d-inline-block v-middle pl-2">
                         <h6 class="message-title mb-0 mt-1">Event today</h6>
@@ -111,7 +111,7 @@
                       class="message-item d-flex align-items-center border-bottom px-3 py-2"
                     >
                       <span class="btn btn-info rounded-circle btn-circle"
-                        ><i data-feather="settings" class="text-white"></i
+                        ><i class="feather icon-settings text-white"></i
                       ></span>
                       <div class="w-75 d-inline-block v-middle pl-2">
                         <h6 class="message-title mb-0 mt-1">Settings</h6>
@@ -130,7 +130,7 @@
                       class="message-item d-flex align-items-center border-bottom px-3 py-2"
                     >
                       <span class="btn btn-primary rounded-circle btn-circle"
-                        ><i data-feather="box" class="text-white"></i
+                        ><i class="feather icon-box text-white"></i
                       ></span>
                       <div class="w-75 d-inline-block v-middle pl-2">
                         <h6 class="message-title mb-0 mt-1">Pavan kumar</h6>
@@ -166,7 +166,7 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i data-feather="settings" class="svg-icon"></i>
+              <i class="feather icon-settings svg-icon"></i>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Action</a>
@@ -201,7 +201,7 @@
                     placeholder="Search"
                     aria-label="Search"
                   />
-                  <i class="form-control-icon" data-feather="search"></i>
+                  <i class="form-control-icon feather icon-search"></i>
                 </div>
               </form>
             </a>
@@ -223,34 +223,33 @@
                 class="rounded-circle"
                 width="40"
               />
-              <span class="ml-2 d-none d-lg-inline-block"
-                ><span>Hello,</span> <span class="text-dark">Jason Doe</span>
-                <i data-feather="chevron-down" class="svg-icon"></i
+              <span class="ml-2 d-none d-lg-inline-block">
+                <span class="text-white font-weight-bold">{{ userNames }}</span>
+                <i class="feather text-white icon-chevron-down svg-icon"></i
               ></span>
             </a>
             <div
               class="dropdown-menu dropdown-menu-right user-dd animated flipInY"
             >
               <a class="dropdown-item" href="javascript:void(0)"
-                ><i data-feather="user" class="svg-icon mr-2 ml-1"></i> My
+                ><i class="feather icon-user svg-icon mr-2 ml-1"></i> My
                 Profile</a
               >
               <a class="dropdown-item" href="javascript:void(0)"
-                ><i data-feather="credit-card" class="svg-icon mr-2 ml-1"></i>
-                My Balance</a
+                ><i class="feather icon-credit-card svg-icon mr-2 ml-1"></i> My
+                Balance</a
               >
               <a class="dropdown-item" href="javascript:void(0)"
-                ><i data-feather="mail" class="svg-icon mr-2 ml-1"></i> Inbox</a
+                ><i class="feather icon-mail svg-icon mr-2 ml-1"></i> Inbox</a
               >
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="javascript:void(0)"
-                ><i data-feather="settings" class="svg-icon mr-2 ml-1"></i>
+                ><i class="feather icon-settings svg-icon mr-2 ml-1"></i>
                 Account Setting</a
               >
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="javascript:void(0)"
-                ><i data-feather="power" class="svg-icon mr-2 ml-1"></i>
-                Logout</a
+                ><i class="feather icon-power svg-icon mr-2 ml-1"></i> Logout</a
               >
               <div class="dropdown-divider"></div>
               <div class="pl-4 p-3">

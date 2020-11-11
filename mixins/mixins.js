@@ -64,6 +64,9 @@ const Mixin = {
     ).getDate()}, ${new Date(date).getFullYear()}`;
   },
 
+  numberWithCommas: x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+  removeCommas: amount => amount.replace(/,/g, ''),
+
   capitalize: string => string.charAt(0).toUpperCase() + string.slice(1),
   validateName: value =>
     /^[a-zA-Z]+ [a-zA-Z]+$/.test(value) && value.length > 5,
@@ -81,7 +84,9 @@ const Mixin = {
     return /^\d+$/.test(mid) && /^[a-z]+$/i.test(start + end);
   },
   formatAmount: amount =>
-    Naira + parseFloat(parseFloat(amount).toFixed(2)).toLocaleString('en'),
+    amount
+      ? Naira + parseFloat(parseFloat(amount).toFixed(2)).toLocaleString('en')
+      : Naira + '0.00',
 };
 
 export default Mixin;
