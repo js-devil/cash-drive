@@ -32,7 +32,7 @@
                       class="form-control bg-white custom-radius custom-shadow border-0"
                       type="password"
                       :disabled="loading"
-                      v-model="user.password"
+                      v-model="auth.password"
                       placeholder="enter your new password"
                     />
                   </div>
@@ -46,7 +46,7 @@
                       class="form-control bg-white custom-radius custom-shadow border-0"
                       type="password"
                       :disabled="loading"
-                      v-model="user.password_confirmation"
+                      v-model="auth.password_confirmation"
                       placeholder="confirm your new password"
                     />
                   </div>
@@ -69,14 +69,14 @@
 <script>
 export default {
   data: () => ({
-    user: {},
+    auth: {},
     errorMessage: '',
     loading: false,
     error: false,
   }),
   methods: {
     validateSubmit() {
-      const { email, password, password_confirmation } = this.user;
+      const { email, password, password_confirmation } = this.auth;
 
       if (!email || !this.validateEmail(email)) {
         this.errorMessage = 'Enter a valid email address';

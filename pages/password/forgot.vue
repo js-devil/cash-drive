@@ -30,7 +30,7 @@
                     <input
                       id="email"
                       class="form-control bg-white custom-radius custom-shadow border-0"
-                      v-model="user.email"
+                      v-model="auth.email"
                       type="email"
                       :disabled="loading"
                       placeholder="enter your email address"
@@ -60,14 +60,14 @@
 <script>
 export default {
   data: () => ({
-    user: {},
+    auth: {},
     errorMessage: '',
     loading: false,
     error: false,
   }),
   methods: {
     validateSubmit() {
-      const { email } = this.user;
+      const { email } = this.auth;
 
       if (!email || !this.validateEmail(email)) {
         this.errorMessage = 'Enter a valid email address';

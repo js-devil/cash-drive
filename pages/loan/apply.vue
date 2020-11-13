@@ -2,7 +2,7 @@
   <div class="page-wrapper">
     <div class="page-breadcrumb">
       <div class="container-fluid">
-        <div class="stepwizard col-md-offset-3">
+        <div class="stepwizard col-md-offset-3" v-if="step !== 3">
           <div class="stepwizard-row setup-panel">
             <div class="stepwizard-step">
               <a
@@ -32,12 +32,7 @@
             </div>
             <div class="stepwizard-step">
               <a
-                href="#step3"
-                @click="
-                  if (step > 3) {
-                    step = 3;
-                  }
-                "
+                href="#"
                 type="button"
                 :class="`${btnClass} ${step === 3 && 'active'}`"
               >
@@ -49,7 +44,7 @@
         </div>
 
         <LoanDetails id="step1" v-if="step === 1" @next="step = 2" />
-        <CarDetails id="step2" v-else-if="step === 2" @next="step = 3" />
+        <CarDetails id="step2" v-else-if="step === 2" @next="applyForLoan" />
         <Done v-else />
       </div>
     </div>
@@ -71,6 +66,34 @@ export default {
       step: 2,
       btnClass: 'btn btn-circle',
     };
+  },
+  methods: {
+    async applyForLoan() {
+      this.$store.commit('set', { loading: true });
+
+      const data = this.$store.state.loan_application;
+      console.log(data);
+      // return;
+
+      try {
+        const res = await this.$axios({
+          method: 'POST',
+          url: '/estimate',
+          data,
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+
+        this.$store.commit('set', { loading: false });
+        if (res.data.status) {
+          this.step = 3;
+        }
+        console.log(res.data);
+      } catch (err) {
+        this.catchErrors(err);
+      }
+    },
   },
 };
 </script>

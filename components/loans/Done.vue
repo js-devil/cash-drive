@@ -24,8 +24,9 @@
                 Congratulations {{ user.first_name }}
               </h4>
               <p>
-                You have successfully applied for a loan. You will be contacted
-                shortly
+                You have successfully applied for a loan.
+                <br />
+                You will be contacted shortly
               </p>
 
               <n-link to="/loans" type="button" class="btn btn-secondary"

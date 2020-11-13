@@ -10,25 +10,11 @@
         ></a>
         <div class="navbar-brand">
           <!-- Logo icon -->
-          <a href="index.html">
+          <a href="#">
             <b class="logo-icon">
-              <!-- Dark Logo icon -->
-              <img src="/img/logo-icon.png" alt="homepage" class="dark-logo" />
               <!-- Light Logo icon -->
-              <img src="/img/logo-icon.png" alt="homepage" class="light-logo" />
+              <img src="/img/logo.png" alt="homepage" class="light-logo" />
             </b>
-            <!--End Logo icon -->
-            <!-- Logo text -->
-            <span class="logo-text">
-              <!-- dark Logo text -->
-              <img src="/img/logo-text.png" alt="homepage" class="dark-logo" />
-              <!-- Light Logo text -->
-              <img
-                src="/img/logo-light-text.png"
-                class="light-logo"
-                alt="homepage"
-              />
-            </span>
           </a>
         </div>
         <a
@@ -269,4 +255,18 @@
 export default {};
 </script>
 
-<style></style>
+<style scoped>
+.topbar .top-navbar {
+  margin-top: -1px;
+}
+
+.topbar .top-navbar .navbar-header .navbar-brand {
+  padding: 0;
+  background-color: #00162A;
+}
+
+.logo-icon img {
+  height: 75px;
+  padding: 4.4px;
+}
+</style>

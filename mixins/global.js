@@ -11,7 +11,7 @@ export default {
     catchErrors({ response }) {
       this.$store.commit('set', { loading: false });
 
-      if (!response || response.status == 404)
+      if (!response)
         return this.$toastr.w(
           'Please check your internet connection and try again',
           'Network Error!',

@@ -29,7 +29,7 @@
                     <input
                       id="fname"
                       class="form-control"
-                      v-model="user.first_name"
+                      v-model="auth.first_name"
                       type="text"
                       :disabled="loading"
                       placeholder="enter your first name"
@@ -43,7 +43,7 @@
                     <input
                       id="lname"
                       class="form-control"
-                      v-model="user.last_name"
+                      v-model="auth.last_name"
                       type="text"
                       :disabled="loading"
                       placeholder="enter your last name"
@@ -57,7 +57,7 @@
                     <input
                       id="email"
                       class="form-control"
-                      v-model="user.email"
+                      v-model="auth.email"
                       type="email"
                       :disabled="loading"
                       placeholder="enter your email address"
@@ -71,7 +71,7 @@
                     <input
                       id="tel"
                       class="form-control"
-                      v-model="user.phone"
+                      v-model="auth.phone"
                       type="tel"
                       :disabled="loading"
                       placeholder="enter your phone number"
@@ -87,7 +87,7 @@
                       class="form-control"
                       :type="showPass ? 'text' : 'password'"
                       :disabled="loading"
-                      v-model="user.password"
+                      v-model="auth.password"
                       placeholder="enter your password"
                     />
                     <span class="show-pass" @click="showPass = !showPass">
@@ -105,7 +105,7 @@
                     <input
                       id="ref_code"
                       class="form-control"
-                      v-model="user.ref_code"
+                      v-model="auth.ref_code"
                       type="text"
                       :disabled="loading"
                       placeholder="enter the referral code of whoever referred you"
@@ -134,7 +134,7 @@
 <script>
 export default {
   data: () => ({
-    user: {},
+    auth: {},
     errorMessage: '',
     loading: false,
     error: false,
@@ -149,7 +149,7 @@ export default {
         last_name,
         phone,
         ref_code,
-      } = this.user;
+      } = this.auth;
 
       if (!first_name || !last_name) {
         this.errorMessage = 'Please enter your first and last names';

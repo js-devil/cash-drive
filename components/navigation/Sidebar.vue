@@ -355,14 +355,12 @@ export default {};
 <style>
 #scroller {
   height: 89vh;
-  border-top: 1px solid #f5f5f5;
-  border-bottom: 1px solid #f5f5f5;
   overflow: hidden;
 }
 
 #scroller:hover {
   overflow-y: scroll;
-  margin-right: -5px;
+  margin-right: 2px;
 }
 
 #scroller::-webkit-scrollbar-track {
