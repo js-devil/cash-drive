@@ -38,6 +38,10 @@ export default {
 </script>
 
 <style>
+.swal2-title {
+  font-size: 1.5rem;
+}
+
 .btn-primary,
 .bg-primary {
   background-color: #e26511 !important;

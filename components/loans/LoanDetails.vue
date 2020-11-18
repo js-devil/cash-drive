@@ -135,6 +135,20 @@ export default {
       this.$emit('next');
     },
   },
+  mounted() {
+    const {
+      desired_amount,
+      desired_tenor,
+      desired_repayment_plan,
+    } = this.$store.state.loan_application;
+    this.amount = String(desired_amount);
+
+    this.loan = {
+      desired_amount,
+      desired_tenor,
+      desired_repayment_plan,
+    };
+  },
   watch: {
     amount: 'getAmount',
   },

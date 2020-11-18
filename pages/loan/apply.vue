@@ -45,7 +45,7 @@
 
         <LoanDetails id="step1" v-if="step === 1" @next="step = 2" />
         <CarDetails id="step2" v-else-if="step === 2" @next="applyForLoan" />
-        <Done v-else />
+        <Done v-else :offerDetails="offerDetails" @decline="step = 1" />
       </div>
     </div>
   </div>
@@ -53,8 +53,8 @@
 
 <script>
 import LoanDetails from '~/components/loans/LoanDetails.vue';
-import CarDetails from '../../components/loans/CarDetails.vue';
-
+import CarDetails from '~/components/loans/CarDetails.vue';
+import offer from '~/assets/offer.json';
 export default {
   middleware: 'authenticated',
   components: {
@@ -63,8 +63,11 @@ export default {
   },
   data() {
     return {
-      step: 2,
+      step: 1,
       btnClass: 'btn btn-circle',
+      offerDetails: {
+        ...offer.data,
+      },
     };
   },
   methods: {
@@ -72,7 +75,7 @@ export default {
       this.$store.commit('set', { loading: true });
 
       const data = this.$store.state.loan_application;
-      console.log(data);
+      // console.log(data);
       // return;
 
       try {
@@ -88,6 +91,10 @@ export default {
         this.$store.commit('set', { loading: false });
         if (res.data.status) {
           this.step = 3;
+          this.offerDetails = {
+            ...res.data.data,
+            token: res.data.token,
+          };
         }
         console.log(res.data);
       } catch (err) {

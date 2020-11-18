@@ -1,70 +1,65 @@
 <template>
   <form class="mt-4 mx-auto w-50" @submit.prevent="validateSubmit">
     <div class="row">
+      {{ car }}
+      <div class="col-lg-6">
+        <div class="form-group customize-input">
+          <label class="text-dark" for="pwd">Year</label>
+          <v-select
+            :options="years"
+            class="vSelect"
+            @input="car.make = car.model = car.trim = ''"
+            v-model="car.year"
+            id="year"
+            :searchable="true"
+          ></v-select>
+        </div>
+      </div>
+
       <div class="col-lg-6" v-if="car.year">
         <div class="form-group">
           <label class="text-dark">Make</label>
-          <select
-            class="custom-select form-control bg-white custom-radius custom-shadow border-none"
-            :disabled="loading"
+          <v-select
+            :options="mapNames(makes)"
+            class="vSelect"
+            @input="car.model = car.trim = ''"
             id="make"
+            :disabled="loading"
             v-model="car.make"
-            @change="handleChange"
+            :searchable="true"
           >
-            <option v-for="make in makes" :key="make.id">
-              {{ make.name }}
-            </option>
-          </select>
+          </v-select>
         </div>
       </div>
 
       <div class="col-lg-6" v-if="car.make">
         <div class="form-group">
           <label class="text-dark">Model</label>
-          <select
-            class="custom-select form-control bg-white custom-radius custom-shadow border-none"
+          <v-select
+            :options="mapNames(models)"
+            @input="car.trim = ''"
+            class="vSelect"
             :disabled="loading"
-            @change="handleChange"
             id="model"
             v-model="car.model"
+            :searchable="true"
           >
-            <option v-for="model in models" :key="model.id">
-              {{ model.name }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-lg-6">
-        <div class="form-group customize-input">
-          <label class="text-dark" for="pwd">Year</label>
-          <select
-            class="custom-select form-control bg-white custom-radius custom-shadow border-none"
-            :disabled="loading"
-            id="year"
-            v-model="car.year"
-            @change="handleChange"
-          >
-            <!-- <option>{{ thisYear }}</option>
-            <option v-for="n in 20" :key="n + 'c'">{{ thisYear - n }}</option> -->
-            <option v-for="year in years" :key="year + 'c'">{{ year }}</option>
-          </select>
+          </v-select>
         </div>
       </div>
 
       <div class="col-lg-6" v-if="car.model && trims.length">
         <div class="form-group">
-          <label class="text-dark">Trim</label>
-          <select
-            class="custom-select form-control bg-white custom-radius custom-shadow border-none"
+          <label class="text-dark">Body Style</label>
+          <v-select
+            :options="mapNames(trims)"
+            class="vSelect"
             :disabled="loading"
             id="trim"
             v-model="car.trim"
+            :searchable="true"
           >
-            <option v-for="trim in trims" :key="trim.id">
-              {{ trim.name }}
-            </option>
-          </select>
+          </v-select>
         </div>
       </div>
 
@@ -157,7 +152,7 @@ import states from '~/assets/states.json';
 import vehicles from '~/assets/vehicles.json';
 
 const vehicleDetails = vehicles[0].selections.years;
-const years = vehicleDetails.map(key => key.id) || [];
+const years = vehicleDetails?.map(key => key.id).filter(key => key >= 1990);
 
 export default {
   data: () => ({
@@ -191,14 +186,7 @@ export default {
     },
   },
   methods: {
-    handleChange({ target }) {
-      // this.car[target.id] = target.value;
-      if (target.id == 'make' || target.id == 'year' || target.id == 'model')
-        this.car.trim = '';
-      if (target.id == 'make' || target.id == 'year') this.car.model = '';
-      if (target.id == 'year') this.car.make = '';
-      console.log(this.car);
-    },
+    mapNames: arr => arr.map(key => key.name),
     getAmount() {
       this.amount = this.amount
         ? String(Number(this.removeCommas(this.amount)))
@@ -301,7 +289,48 @@ export default {
 </script>
 
 <style>
+@import 'vue-select/dist/vue-select.css';
+
 .border-none {
   border: none;
+}
+
+.vSelect .vs__selected {
+  margin: 0;
+}
+
+.vSelect .vs__search::placeholder,
+.vSelect .vs__dropdown-toggle,
+.vSelect .vs__dropdown-menu {
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 2px 9px 0 rgba(169, 184, 200, 0.2);
+  text-transform: lowercase;
+  /* font-variant: small-caps; */
+  text-transform: capitalize;
+  font-family: inherit;
+  width: 100%;
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  vertical-align: middle;
+  background: #fff
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+    no-repeat right 0.75rem center/8px 10px;
+}
+
+.vSelect .vs__actions {
+  display: block;
+  padding: 0;
+}
+
+.vSelect .vs__clear {
+  fill: #394066;
+}
+
+.vSelect .vs__open-indicator {
+  display: none;
 }
 </style>

@@ -44,6 +44,10 @@ export default {
       src: '~/plugins/auth',
       mode: 'client',
     },
+    {
+      src: '~plugins/vue-select.js',
+      mode: 'client',
+    },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

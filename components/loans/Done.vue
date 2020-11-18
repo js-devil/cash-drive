@@ -29,9 +29,9 @@
                 You will be contacted shortly
               </p>
 
-              <n-link to="/loans" type="button" class="btn btn-secondary"
-                >Go To My Loans</n-link
-              >
+              <button class="btn btn-secondary" @click="proceed">
+                Continue
+              </button>
             </div>
           </div>
         </div>
@@ -41,7 +41,74 @@
 </template>
 
 <script>
-export default {};
+import Swal from 'sweetalert2';
+
+export default {
+  props: {
+    offerDetails: Object,
+  },
+  methods: {
+    proceed() {
+      Swal.fire({
+        title: 'Do you accept this offer',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        // backdrop: false,
+        allowOutsideClick: false,
+        allowEnterKey: false,
+        allowEscapeKey: false,
+        confirmButtonText: 'Accept',
+        cancelButtonText: 'Decline',
+      }).then(result => {
+        if (result.isConfirmed) return this.acceptOffer();
+        this.declineOffer();
+      });
+    },
+    async acceptOffer() {
+      const { token, id } = this.offerDetails;
+
+      try {
+        const res = await this.$axios({
+          url: `/loans/${id}/accept`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        this.$store.commit('set', { loading: false });
+        if (res.data.status) {
+          this.$emit('decline');
+        }
+        console.log(res.data);
+      } catch (err) {
+        this.catchErrors(err);
+      }
+    },
+    async declineOffer() {
+      const { token, id } = this.offerDetails;
+
+      try {
+        const res = await this.$axios({
+          url: `/loans/${id}/decline`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        this.$store.commit('set', { loading: false });
+        if (res.data.status) {
+          this.$emit('decline');
+        }
+        console.log(res.data);
+      } catch (err) {
+        this.catchErrors(err);
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
