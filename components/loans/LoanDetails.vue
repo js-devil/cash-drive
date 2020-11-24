@@ -141,10 +141,10 @@ export default {
       desired_tenor,
       desired_repayment_plan,
     } = this.$store.state.loan_application;
-    this.amount = String(desired_amount);
+    this.amount = String(desired_amount || '');
 
     this.loan = {
-      desired_amount,
+      desired_amount: desired_amount || 0,
       desired_tenor,
       desired_repayment_plan,
     };

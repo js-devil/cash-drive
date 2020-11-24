@@ -3,9 +3,9 @@ export const state = () => ({
     loggedIn: false,
   },
   loan_application: {
-    desired_amount: 9000,
-    desired_tenor: 6,
-    desired_repayment_plan: 1,
+    // desired_amount: 9000,
+    // desired_tenor: 6,
+    // desired_repayment_plan: 1,
   },
   loading: false,
 });
