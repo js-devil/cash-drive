@@ -85,7 +85,7 @@ export default {
       });
     },
     async acceptOffer() {
-      const { token, id } = this.offerDetails;
+      const { id } = this.offerDetails;
       this.$store.commit('set', { loading: true });
 
       try {
@@ -104,8 +104,10 @@ export default {
           });
 
           this.$store.commit('set', {
-            loan_offer: res.data.levels,
+            loan_offer: res.data.data,
           });
+
+          this.$router.push('/loan/information');
         }
       } catch (err) {
         console.log(err);
