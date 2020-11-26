@@ -9,12 +9,25 @@
       <img :src="photo" alt="your selfie" />
     </div>
     <div>
-      <b-btn type="primary" @click.prevent="takePicture"
-        >Take {{ photo ? 'Another ' : '' }}Selfie</b-btn
-      >
-      <b-btn type="secondary" @click.prevent="clearPhoto">Clear</b-btn>
+      <button class="btn btn-primary" @click.prevent="takePicture">
+        Take {{ photo ? 'Another ' : '' }}Selfie
+      </button>
+      <button class="btn btn-danger" v-if="photo" @click.prevent="clearPhoto">
+        Clear
+      </button>
     </div>
-    <canvas id="canvas" width="200" height="200"></canvas>
+    <canvas id="canvas" width="320" height="240"></canvas>
+
+    <div class="mt-2">
+      <button
+        v-if="photo"
+        style="width: 100%"
+        class="btn btn-secondary mt-3"
+        @click.prevent="validateSubmit"
+      >
+        Submit
+      </button>
+    </div>
   </div>
 </template>
 
@@ -61,8 +74,10 @@ export default {
       const video = document.getElementById('video');
       const canvas = document.getElementById('canvas');
       const context = canvas.getContext('2d');
+      context.imageSmoothingEnabled = false;
 
       const { width, height } = canvas;
+      console.log(width, height);
       if (width && height) {
         context.fillRect(0, 0, width, height);
         context.drawImage(video, 0, 0, width, height);
@@ -73,19 +88,72 @@ export default {
         this.clearPhoto();
       }
     },
+    dataURLtoFile(dataurl) {
+      var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], 'selfie.png', { type: mime });
+    },
+    validateSubmit() {
+      const { photo } = this;
+
+      if (!photo)
+        return this.$toastr.e(
+          'Please take a clear picture of your face to get your loan approved!',
+          'No Photo',
+        );
+
+      const selfie = this.dataURLtoFile(photo);
+
+      console.log(selfie);
+      this.uploadSelfie({ selfie });
+    },
+
+    async uploadSelfie(data) {
+      this.$store.commit('set', { loading: true });
+
+      const { id } = this.$store.state.loan_offer;
+      const formData = new FormData();
+      for (let key of Object.keys(data))
+        if (data[key]) formData.append(key, data[key]);
+
+      try {
+        const res = await this.$axios({
+          method: 'POST',
+          url: `/loans/${id}/selfie/upload`,
+          data: formData,
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+
+        this.$store.commit('set', {
+          loan_offer: res.data.data,
+        });
+
+        this.$store.commit('set', { loading: false });
+      } catch (err) {
+        this.catchErrors(err);
+      }
+    },
   },
 };
 </script>
 
 <style>
+.output img,
+#canvas,
 #video {
   padding: 10px;
   width: 320px;
   height: 240px;
-}
-
-#photo {
-  border: 1px solid black;
 }
 
 #canvas {
@@ -96,11 +164,5 @@ export default {
 .output {
   width: 340px;
   display: inline-block;
-}
-
-.output img {
-  padding: 10px;
-  height: 240px;
-  width: 320px;
 }
 </style>

@@ -64,19 +64,18 @@ export default {
 
       const imageSize = size / 1024 / 1000;
       if (!isType) {
-        Toast.fire({
-          icon: 'warning',
-          title: 'You can only upload JPG, JPEG or PNG files!',
-        });
-
+        this.$toastr.w(
+          'You can only upload JPG, JPEG or PNG files!',
+          'This file type is not allowed',
+        );
         return false;
       }
 
       if (imageSize > 2) {
-        this.$toast.fire({
-          icon: 'warning',
-          title: 'You can only upload images with maximum size of 2MB!',
-        });
+        this.$toastr.w(
+          'You can only upload images with maximum size of 2MB!',
+          'This file type is not allowed',
+        );
         return false;
       }
 

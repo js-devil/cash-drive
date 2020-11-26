@@ -40,7 +40,7 @@ const Mixin = {
     Swal.fire({
       imageUrl,
       imageAlt: 'forbidden',
-      imageHeight: 200,
+      imageHeight: 150,
       title: title || 'Oops!',
       text,
       // showConfirmButton: false,
@@ -58,11 +58,12 @@ const Mixin = {
 
     return `${hours}:${minutes}${ampm}`;
   },
-  formatDate(date) {
-    return `${months[new Date(date).getMonth()]} ${new Date(
-      date,
-    ).getDate()}, ${new Date(date).getFullYear()}`;
-  },
+  formatDate: date =>
+    date
+      ? `${months[new Date(date).getMonth()]} ${new Date(
+          date,
+        ).getDate()}, ${new Date(date).getFullYear()}`
+      : '-',
 
   numberWithCommas: x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
   removeCommas: amount => amount.replace(/,/g, ''),

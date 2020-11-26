@@ -2,19 +2,16 @@
   <form class="mt-4 mx-auto w-50" @submit.prevent="validateSubmit">
     <div class="row">
       <div class="col-lg-12">
-        <div class="form-group">
-          <label class="text-dark">Account Name</label>
+        <div class="form-group customize-input">
+          <label class="text-dark">Account Number</label>
           <input
-            class="form-control bg-white custom-radius custom-shadow border-0"
-            v-model="account.name"
-            :disabled="loading"
+            class="form-control bg-white custom-radius custom-shadow border-0 text-capitalize"
+            :value="userNames"
+            disabled
             autocomplete="off"
-            placeholder="Your Account Name"
+            placeholder="Account Number must have 10 digits"
           />
         </div>
-        <span class="text-danger"
-          >Ensure it matches the name registered on your BVN</span
-        >
       </div>
 
       <div class="col-lg-12">
@@ -75,13 +72,7 @@ export default {
   }),
   methods: {
     validateSubmit() {
-      const { type, bvn, name, number } = this.account;
-
-      if (!name)
-        return this.$toastr.e(
-          'Please enter the name of the account. Ensure it matches the name registered on your BVN',
-          'Invalid Account Number',
-        );
+      const { type, bvn, number } = this.turnToLower(this.account);
 
       if (!this.validatePhone(number + '1'))
         return this.$toastr.e(
@@ -99,14 +90,14 @@ export default {
       this.verifyAccount({
         type,
         bvn,
-        name,
+        name: this.userNames,
         number,
       });
     },
     async verifyAccount(data) {
       this.$store.commit('set', { loading: true });
 
-      const { id } = this.$store.state.loan_application;
+      const { id } = this.$store.state.loan_offer;
       try {
         const res = await this.$axios({
           method: 'PUT',
@@ -118,11 +109,9 @@ export default {
         });
 
         this.$store.commit('set', { loading: false });
-        console.log(res.data);
+
         this.$store.commit('set', {
-          loan_application: {
-            account: data,
-          },
+          loan_offer: res.data.data,
         });
       } catch (err) {
         this.catchErrors(err);
@@ -131,11 +120,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-span.text-danger {
-  position: relative;
-  top: -15px;
-  font-size: 14px;
-}
-</style>

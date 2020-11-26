@@ -1,5 +1,5 @@
 <template>
-  <div class="row mx-auto w-75">
+  <div class="row mx-auto w-75 done">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="card text-white">
         <div class="card-content">
@@ -20,16 +20,18 @@
               </div>
             </div>
             <div class="text-center my-3">
-              <h4 class="mb-2 text-white">
-                Congratulations {{ user.first_name }}
-              </h4>
+              <h4 class="mb-2 text-white">Congratulations</h4>
               <p>
-                You have successfully applied for a loan.
+                Your loan application is being reviewed for approval. It might
+                take a while
                 <br />
-                You will be contacted shortly
+                Thank you for working with us
               </p>
 
-              <button class="btn btn-secondary" @click="proceed">
+              <button
+                class="btn btn-secondary"
+                @click="$router.push('/loan/active')"
+              >
                 Continue
               </button>
             </div>
@@ -41,77 +43,26 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
-
 export default {
-  props: {
-    offerDetails: Object,
-  },
   methods: {
-    proceed() {
-      Swal.fire({
-        title: 'Do you accept this offer',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        // backdrop: false,
-        allowOutsideClick: false,
-        allowEnterKey: false,
-        allowEscapeKey: false,
-        confirmButtonText: 'Accept',
-        cancelButtonText: 'Decline',
-      }).then(result => {
-        if (result.isConfirmed) return this.acceptOffer();
-        this.declineOffer();
-      });
-    },
-    async acceptOffer() {
-      const { token, id } = this.offerDetails;
+    stopCamera() {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: false })
+        .then(mediaStream => {
+          const stream = mediaStream;
+          const tracks = stream.getTracks();
 
-      try {
-        const res = await this.$axios({
-          url: `/loans/${id}/accept`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          tracks[0].stop;
         });
-
-        this.$store.commit('set', { loading: false });
-        if (res.data.status) {
-          this.$emit('decline');
-        }
-        console.log(res.data);
-      } catch (err) {
-        this.catchErrors(err);
-      }
     },
-    async declineOffer() {
-      const { token, id } = this.offerDetails;
-
-      try {
-        const res = await this.$axios({
-          url: `/loans/${id}/decline`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        this.$store.commit('set', { loading: false });
-        if (res.data.status) {
-          this.$emit('decline');
-        }
-        console.log(res.data);
-      } catch (err) {
-        this.catchErrors(err);
-      }
-    },
+  },
+  mounted() {
+    this.stopCamera();
   },
 };
 </script>
 
-<style scoped>
+<style>
 .img-left {
   width: 200px;
   position: absolute;

@@ -210,39 +210,33 @@
                 width="40"
               />
               <span class="ml-2 d-none d-lg-inline-block">
-                <span class="text-white font-weight-bold">{{ userNames }}</span>
+                <span class="text-white font-weight-bold text-capitalize">{{
+                  userNames
+                }}</span>
                 <i class="feather text-white icon-chevron-down svg-icon"></i
               ></span>
             </a>
             <div
               class="dropdown-menu dropdown-menu-right user-dd animated flipInY"
             >
-              <a class="dropdown-item" href="javascript:void(0)"
+              <n-link class="dropdown-item" to="/loans"
+                ><i class="feather icon-bar-chart-2 svg-icon mr-2 ml-1"></i> My
+                Loans</n-link
+              >
+              <div class="dropdown-divider"></div>
+              <n-link class="dropdown-item" to="/user/profile"
                 ><i class="feather icon-user svg-icon mr-2 ml-1"></i> My
-                Profile</a
+                Profile</n-link
               >
-              <a class="dropdown-item" href="javascript:void(0)"
+              <div class="dropdown-divider"></div>
+              <n-link class="dropdown-item" to="/user/card"
                 ><i class="feather icon-credit-card svg-icon mr-2 ml-1"></i> My
-                Balance</a
-              >
-              <a class="dropdown-item" href="javascript:void(0)"
-                ><i class="feather icon-mail svg-icon mr-2 ml-1"></i> Inbox</a
+                Cards</n-link
               >
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:void(0)"
-                ><i class="feather icon-settings svg-icon mr-2 ml-1"></i>
-                Account Setting</a
-              >
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:void(0)"
+              <a class="dropdown-item" href="javascript:void(0)" @click="logout"
                 ><i class="feather icon-power svg-icon mr-2 ml-1"></i> Logout</a
               >
-              <div class="dropdown-divider"></div>
-              <div class="pl-4 p-3">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info"
-                  >View Profile</a
-                >
-              </div>
             </div>
           </li>
         </ul>
@@ -252,7 +246,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  middleware: 'authenticated',
+};
 </script>
 
 <style scoped>
@@ -262,7 +258,7 @@ export default {};
 
 .topbar .top-navbar .navbar-header .navbar-brand {
   padding: 0;
-  background-color: #00162A;
+  background-color: #00162a;
 }
 
 .logo-icon img {

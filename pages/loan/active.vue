@@ -16,7 +16,6 @@
                       v-model="search"
                   /></label>
                 </div>
-
                 <div class="table-responsive">
                   <table
                     id="zero_config"
@@ -24,7 +23,7 @@
                   >
                     <thead>
                       <tr>
-                        <th class="text-center">#</th>
+                        <th>#</th>
                         <th>Offer Amount</th>
                         <th>Duration</th>
                         <th>Repayment Plan</th>
@@ -34,7 +33,7 @@
                     </thead>
                     <tbody v-if="filteredLoans.length">
                       <tr v-for="(loan, i) in filteredLoans" :key="loan.id">
-                        <td class="text-center">{{ i + 1 }}.</td>
+                        <td>{{ i + 1 }}</td>
                         <td>{{ formatAmount(loan.offer_amount) }}</td>
                         <td>{{ loan.offer_tenor + ' months' }}</td>
                         <td class="text-capitalize">
@@ -42,19 +41,7 @@
                         </td>
                         <td v-html="status(loan.status)"></td>
                         <td>
-                          <b-btn
-                            size="sm"
-                            @click="viewLoan(loan)"
-                            v-if="checkLoanIsActive(loan)"
-                            >View</b-btn
-                          >
-
-                          <b-btn
-                            v-else-if="!activeLoan"
-                            size="sm"
-                            @click="reapply(loan)"
-                            >Re-apply</b-btn
-                          >
+                          <b-btn size="sm">View</b-btn>
                         </td>
                       </tr>
                     </tbody>
@@ -63,8 +50,9 @@
                         <td colspan="6" class="text-center">
                           {{
                             !loans.length
-                              ? `You have not applied for any loans so far`
-                              : `No match was found for the loan you are looking for`
+                              ? 'There are no active loans at this moment'
+                              : `No match was found for the active loan you are looking
+                          for`
                           }}
                         </td>
                       </tr>
@@ -85,44 +73,39 @@ export default {
   middleware: 'authenticated',
   data: () => ({ loans: [], search: '' }),
   methods: {
-    async viewLoan(loan) {
-      const {
-        passed_bvn,
-        passed_document_upload,
-        passed_payment_setup,
-        passed_picture_upload,
-        passed_repayment_setup,
-        passed_set_inspection_date,
-      } = loan.level;
+    async getAllLoans() {
+      this.$store.commit('set', { loading: true });
 
-      if (
-        !passed_bvn ||
-        !passed_document_upload ||
-        !passed_payment_setup ||
-        !passed_picture_upload ||
-        !passed_repayment_setup ||
-        !passed_set_inspection_date
-      ) {
-        this.$store.commit('set', {
-          loan_offer: loan,
+      try {
+        const res = await this.$axios({
+          url: '/users/loans/active',
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
         });
-        return this.$router.push('/loan/information');
+
+        this.loans = res.data.data;
+        this.$store.commit('set', { loading: false });
+      } catch (err) {
+        this.catchErrors(err);
       }
-
-      this.$router.push('/loan/active');
     },
-    reapply(loan) {
-      const { desired_amount, desired_tenor, desired_repayment_plan } = loan;
-
-      this.$store.commit('set', {
-        loan_application: {
-          desired_amount,
-          desired_tenor,
-          desired_repayment_plan,
-        },
-      });
-      this.$router.push('/loan/apply');
-    },
+    status: status =>
+      status == 1
+        ? '<span class="badge badge-primary">Accepted</span>'
+        : status == 2
+        ? '<span class="badge badge-warning">Declined</span>'
+        : status == 3
+        ? '<span class="badge badge-success">Approved</span>'
+        : status == 4
+        ? '<span class="badge badge-info">Signed Contract</span>'
+        : status == 5
+        ? '<span class="badge badge-dark">Defaulted</span>'
+        : status == 6
+        ? '<span class="badge badge-danger">Rejected</span>'
+        : '<span class="badge badge-secondary">Neutral</span>',
+    repaymentPlan: plan =>
+      plan == 1 ? 'every month' : plan == 2 ? 'every two months' : 'quarterly',
   },
   computed: {
     filteredLoans() {
@@ -132,9 +115,6 @@ export default {
           this.repaymentPlan(key.offer_repayment_plan).includes(search) ||
           key.offer_tenor + ' months'.includes(search),
       );
-    },
-    activeLoan() {
-      return Boolean(this.loans.filter(key => this.checkLoanIsActive(key)));
     },
   },
   mounted() {

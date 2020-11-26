@@ -34,6 +34,10 @@
                       :disabled="loading"
                       placeholder="enter your first name"
                     />
+                    <span class="text-danger"
+                      >Ensure your name matches the name registered on your
+                      BVN</span
+                    >
                   </div>
                 </div>
 
@@ -234,5 +238,12 @@ export default {
   cursor: pointer;
   top: 40px;
   right: 25px;
+}
+
+span.text-danger {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
 }
 </style>

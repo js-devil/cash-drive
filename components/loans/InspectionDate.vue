@@ -52,7 +52,30 @@ export default {
       if (!time)
         return this.$toastr.e('Please select the time for inspection', 'Oops!');
 
-      alert(date, time);
+      this.setInspectionDate({ date, time });
+    },
+    async setInspectionDate(data) {
+      this.$store.commit('set', { loading: true });
+      const { id } = this.$store.state.loan_offer;
+      try {
+        const res = await this.$axios({
+          method: 'PUT',
+          url: `/loans/${id}/vehicles/inspection`,
+          data,
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+
+        this.$store.commit('set', {
+          loan_offer: res.data.data,
+        });
+
+        this.$store.commit('set', { loading: false });
+      } catch (err) {
+        console.log(err);
+        this.catchErrors(err);
+      }
     },
   },
 };

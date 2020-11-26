@@ -3,14 +3,18 @@
     <h4 class="text-center">Select any of the two for payment</h4>
     <b-row>
       <b-col class="payment-type">
-        <b-img
+        <b-card
           @click="payment_type = 'paystack'"
-          thumbnail
-          fluid
-          style="height: 165px"
-          src="~/assets/img/paystack.png"
-          alt="Image 1"
-        ></b-img>
+          title="Pay with Card"
+          img-src="~/assets/img/card.svg"
+          img-alt="card"
+          img-height="205px"
+          img-top
+          tag="article"
+          style="max-width: 20rem"
+          class="mb-2"
+        >
+        </b-card>
         <i
           class="feather icon-check-circle"
           v-if="payment_type === 'paystack'"
@@ -18,14 +22,16 @@
       </b-col>
 
       <b-col class="payment-type">
-        <b-img
+        <b-card
           @click="payment_type = 'remita'"
-          thumbnail
-          style="height: 165px"
-          fluid
-          src="~/assets/img/remita.jpg"
-          alt="Image 2"
-        ></b-img>
+          title="Pay with Mandate"
+          img-src="~/assets/img/mandate.svg"
+          img-alt="mandate"
+          img-height="205px"
+          style="max-width: 25rem"
+          class="mb-2"
+        >
+        </b-card>
         <i
           class="feather icon-check-circle"
           v-if="payment_type === 'remita'"
@@ -61,24 +67,22 @@ export default {
     },
     async selectPaymentType(data) {
       this.$store.commit('set', { loading: true });
+      const { id } = this.$store.state.loan_offer;
       try {
         const res = await this.$axios({
           method: 'POST',
-          url: `/loans/${id}/payment-type/select"`,
+          url: `/loans/${id}/payment-type/select`,
           data,
           headers: {
             Authorization: `Bearer ${this.user.token}`,
           },
         });
 
-        this.$store.commit('set', { loading: false });
-        console.log(res.data);
         this.$store.commit('set', {
-          loan_application: {
-            account: data,
-          },
+          loan_offer: res.data.data,
         });
-        this.$emit('next');
+
+        this.$store.commit('set', { loading: false });
       } catch (err) {
         console.log(err);
         this.catchErrors(err);
@@ -89,7 +93,7 @@ export default {
 </script>
 
 <style>
-.payment-type .img-thumbnail:hover {
+.payment-type .card:hover {
   cursor: pointer;
   border: 1px solid #e26511;
 }
@@ -97,8 +101,8 @@ export default {
 .payment-type .icon-check-circle {
   position: absolute;
   font-size: 20px;
-  right: 30px;
-  top: 15px;
+  right: 20px;
+  top: 10px;
   color: #e26511;
 }
 </style>

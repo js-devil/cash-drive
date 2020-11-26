@@ -92,8 +92,8 @@ export default {
         return (this.error = true);
       }
 
-      if (!password || password.length !== 8) {
-        this.errorMessage = 'Password should have eight (8) characters';
+      if (!password || password.length < 8) {
+        this.errorMessage = 'Password should have at least eight (8) characters';
         return (this.error = true);
       }
 

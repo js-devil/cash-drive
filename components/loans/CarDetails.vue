@@ -1,7 +1,6 @@
 <template>
   <form class="mt-4 mx-auto w-50" @submit.prevent="validateSubmit">
     <div class="row">
-      {{ car }}
       <div class="col-lg-6">
         <div class="form-group customize-input">
           <label class="text-dark" for="pwd">Year</label>
@@ -96,14 +95,15 @@
       <div class="col-lg-6">
         <div class="form-group">
           <label class="text-dark">State</label>
-          <select
-            class="custom-select form-control bg-white custom-radius custom-shadow border-none"
+          <v-select
+            :options="states"
+            class="vSelect"
             :disabled="loading"
-            v-model="car.state"
             id="state"
+            v-model="car.state"
+            :searchable="true"
           >
-            <option v-for="state in states" :key="state">{{ state }}</option>
-          </select>
+          </v-select>
         </div>
       </div>
 
@@ -165,7 +165,6 @@ export default {
     errorMessage: '',
     loading: false,
     error: false,
-    amount: '',
     states,
     years,
   }),
@@ -187,20 +186,6 @@ export default {
   },
   methods: {
     mapNames: arr => arr.map(key => key.name),
-    getAmount() {
-      this.amount = this.amount
-        ? String(Number(this.removeCommas(this.amount)))
-        : 0;
-      if (
-        !this.validateNumbers(this.amount) ||
-        Number(this.amount) > 1000000000
-      ) {
-        this.amount = this.amount.slice(0, -1);
-      }
-      this.car.mileage = Number(this.amount);
-      this.amount = this.numberWithCommas(this.amount);
-      if (this.amount == '0') this.amount = '';
-    },
     validateSubmit() {
       this.loading = true;
       const {
@@ -282,8 +267,28 @@ export default {
       return /^\d+$/.test(mid) && /^[a-z]+$/i.test(start + end);
     },
   },
-  watch: {
-    amount: 'getAmount',
+  created() {
+    const {
+      year,
+      make,
+      model,
+      trim,
+      insurance,
+      registered_owner,
+      state,
+      plate_number,
+    } = this.$store.state.loan_application;
+
+    this.car = {
+      year,
+      make,
+      model,
+      trim,
+      insurance,
+      registered_owner,
+      state,
+      plate_number,
+    };
   },
 };
 </script>

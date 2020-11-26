@@ -1,5 +1,5 @@
 <template>
-  <form class="mt-4 mx-auto w-50" @submit.prevent="validateSubmit">
+  <form class="mx-4 mx-auto w-50" @submit.prevent="validateSubmit">
     <h4 class="text-center">Upload the following documents for your vehicle</h4>
     <div class="row">
       <div class="col-12" v-for="(value, key, i) in document" :key="i">
@@ -69,21 +69,22 @@ export default {
       const vehicle_documents = [
         {
           ...this.document,
-          vehicle_id: this.$store.state.loan_application.id,
+          vehicle_id: this.$store.state.loan_offer.id,
         },
       ];
 
-      console.log(vehicle_documents);
-      return;
       this.uploadDocuments(vehicle_documents);
     },
     async uploadDocuments(data) {
       this.$store.commit('set', { loading: true });
 
       const formData = new FormData();
-      for (let key of Object.keys(data))
-        if (data[key]) formData.append(key, data[key]);
+      for (let i = 0; i < data.length; i++) {
+        for (let key of Object.keys(data[i]))
+          formData.append(`vehicles[${i}][${key}]`, data[i][key]);
+      }
 
+      const { id } = this.$store.state.loan_offer;
       try {
         const res = await this.$axios({
           method: 'POST',
@@ -94,14 +95,11 @@ export default {
           },
         });
 
-        this.$store.commit('set', { loading: false });
-        console.log(res.data);
         this.$store.commit('set', {
-          loan_application: {
-            account: data,
-          },
+          loan_offer: res.data.data,
         });
-        this.$emit('next');
+        // this.$emit('next');
+        this.$store.commit('set', { loading: false });
       } catch (err) {
         this.catchErrors(err);
       }

@@ -38,14 +38,19 @@
               >
                 <i class="feather icon-navigation"></i>
               </a>
-              <p>Done</p>
+              <p>Confirmation</p>
             </div>
           </div>
         </div>
 
         <LoanDetails id="step1" v-if="step === 1" @next="step = 2" />
         <CarDetails id="step2" v-else-if="step === 2" @next="applyForLoan" />
-        <Done v-else :offerDetails="offerDetails" @decline="step = 1" />
+        <confirmation
+          v-else
+          :offerDetails="offerDetails"
+          @decline="step = 1"
+        ></confirmation>
+        <!-- <b-btn @click="applyForLoan">Apply</b-btn> -->
       </div>
     </div>
   </div>
@@ -54,20 +59,19 @@
 <script>
 import LoanDetails from '~/components/loans/LoanDetails.vue';
 import CarDetails from '~/components/loans/CarDetails.vue';
-import offer from '~/assets/offer.json';
+import Confirmation from '~/components/loans/Confirmation.vue';
 export default {
   middleware: 'authenticated',
   components: {
     LoanDetails,
     CarDetails,
+    Confirmation,
   },
   data() {
     return {
       step: 1,
       btnClass: 'btn btn-circle',
-      offerDetails: {
-        ...offer.data,
-      },
+      offerDetails: {},
     };
   },
   methods: {
@@ -75,8 +79,6 @@ export default {
       this.$store.commit('set', { loading: true });
 
       const data = this.$store.state.loan_application;
-      // console.log(data);
-      // return;
 
       try {
         const res = await this.$axios({
