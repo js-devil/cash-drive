@@ -111,51 +111,52 @@
       <!-- *************************************************************** -->
       <div class="row">
         <div class="col-lg-4 col-md-12">
-          <div class="card">
+          <div class="card bg-gradient-warning">
             <div class="card-body" v-if="activeLoans.length">
-              <h4 class="card-title">Active Loan</h4>
-              <ul class="list-style-none mb-0">
+              <h4 class="card-title text-white">Active Loan</h4>
+              <hr class="border-white" />
+              <ul class="list-style-none mb-0 text-white">
                 <li>
-                  <span class="text-muted">Amount</span>
-                  <span class="text-dark float-right font-weight-medium">{{
+                  <span class="text-white">Amount</span>
+                  <span class="text-white float-right font-weight-medium">{{
                     formatAmount(activeLoans[0].offer_amount)
                   }}</span>
                 </li>
                 <li class="mt-3">
-                  <span class="text-muted">Duration</span>
-                  <span class="text-dark float-right font-weight-medium"
+                  <span class="text-white">Duration</span>
+                  <span class="text-white float-right font-weight-medium"
                     >{{ activeLoans[0].offer_tenor }} months</span
                   >
                 </li>
                 <li class="mt-3">
-                  <span class="text-muted">Repayment Plan</span>
+                  <span class="text-white">Repayment Plan</span>
                   <span
-                    class="text-dark float-right font-weight-medium text-capitalize"
+                    class="text-white float-right font-weight-medium text-capitalize"
                     >{{
                       repaymentPlan(activeLoans[0].offer_repayment_plan)
                     }}</span
                   >
                 </li>
                 <li class="mt-3">
-                  <span class="text-muted">Next Payment Date</span>
+                  <span class="text-white">Next Payment Date</span>
                   <span
-                    class="text-dark float-right font-weight-medium text-capitalize"
+                    class="text-white float-right font-weight-medium text-capitalize"
                     >{{
                       formatDate(activeLoans[0].next_payment_due_date)
                     }}</span
                   >
                 </li>
                 <li class="mt-3">
-                  <span class="text-muted">Amount Paid</span>
+                  <span class="text-white">Amount Paid</span>
                   <span
-                    class="text-dark float-right font-weight-medium text-capitalize"
+                    class="text-white float-right font-weight-medium text-capitalize"
                     >{{ formatAmount(activeLoans[0].amount_paid) }}</span
                   >
                 </li>
                 <li class="mt-3" v-if="recentLoans.length === 3">
-                  <span class="text-muted">Payment Method</span>
+                  <span class="text-white">Payment Method</span>
                   <span
-                    class="text-dark float-right font-weight-medium text-capitalize"
+                    class="text-white float-right font-weight-medium text-capitalize"
                     >{{
                       activeLoans[0].payment_type == 'paystack'
                         ? 'Card Payment'

@@ -93,7 +93,8 @@ export default {
       }
 
       if (!password || password.length < 8) {
-        this.errorMessage = 'Password should have at least eight (8) characters';
+        this.errorMessage =
+          'Password should have at least eight (8) characters';
         return (this.error = true);
       }
 
@@ -115,10 +116,7 @@ export default {
         this.loading = false;
         const { data: user, token, status } = res.data;
         if (status) {
-          this.$toastr.s(
-            'Your account has been created successfully. Now start applying',
-            'Welcome to Cashdrive!',
-          );
+          this.$toastr.s('', 'Welcome');
 
           localStorage.setItem(
             'user',

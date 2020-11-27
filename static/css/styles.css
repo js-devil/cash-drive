@@ -8380,7 +8380,13 @@ fieldset:disabled a.btn {
   background-color: #fff;
   background-clip: border-box;
   border: 0 solid #e9ecef;
-  border-radius: 0.25rem;
+
+  margin-bottom: 2.2rem;
+  border: none !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .card > hr {
   margin-right: 0;
@@ -13428,7 +13434,7 @@ a.text-purple:hover {
   position: relative;
 }
 .page-wrapper {
-  background: #f9fbfd;
+  background: #fff;
   position: relative;
   margin-left: 260px;
   min-height: 89vh;

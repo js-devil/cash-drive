@@ -98,7 +98,7 @@ export default {
 
         this.$store.commit('set', { loading: false });
         if (res.data.status) {
-          this.$swal.fire({
+          Swal.fire({
             icon: 'success',
             title: 'You accepted this offer',
           });
@@ -130,7 +130,7 @@ export default {
         if (res.data.status) {
           this.$emit('decline');
 
-          this.$swal.fire({
+          Swal.fire({
             icon: 'success',
             title: 'You declined this offer',
           });

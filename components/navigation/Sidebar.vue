@@ -3,7 +3,7 @@
     <!-- Sidebar scroll-->
     <div class="scroll-sidebar" data-sidebarbg="skin6">
       <!-- Sidebar navigation-->
-      <nav class="sidebar-nav" id="scroller">
+      <nav class="sidebar-nav">
         <ul id="sidebarnav">
           <li class="sidebar-item">
             <n-link
@@ -29,7 +29,7 @@
           <li class="sidebar-item">
             <n-link class="sidebar-link" to="/loan/active" aria-expanded="false"
               ><i class="feather icon-activity"></i
-              ><span class="hide-menu">Active Loans</span></n-link
+              ><span class="hide-menu">Active Loan</span></n-link
             >
           </li>
           <!-- <li class="sidebar-item">
@@ -50,6 +50,12 @@
               aria-expanded="false"
               ><i class="feather icon-file-text"></i
               ><span class="hide-menu">Applications</span></a
+            >
+          </li>
+          <li class="sidebar-item">
+            <n-link class="sidebar-link" to="/user/cards"
+              ><i class="feather icon-credit-card"></i
+              ><span class="hide-menu">Accounts</span></n-link
             >
           </li>
           <li class="sidebar-item">
@@ -85,32 +91,3 @@ export default {
   middleware: 'authenticated',
 };
 </script>
-
-<style>
-#scroller {
-  height: 89vh;
-  overflow: hidden;
-}
-
-#scroller:hover {
-  overflow-y: scroll;
-  margin-right: 2px;
-}
-
-#scroller::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px #e26511;
-  background-color: #ffffff;
-  border-radius: 10px;
-}
-
-#scroller::-webkit-scrollbar {
-  width: 10px;
-  background-color: #ffffff;
-}
-
-#scroller::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px #e26511;
-  background-color: #e26511;
-}
-</style>

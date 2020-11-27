@@ -13,6 +13,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       { rel: 'stylesheet', href: '/css/styles.css' },
+      { rel: 'stylesheet', href: '/css/palette.css' },
       { rel: 'stylesheet', href: '/css/feather.css' },
       { rel: 'stylesheet', href: '/css/bootstrap.min.css' },
     ],
@@ -35,6 +36,10 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    {
+      src: '~/plugins/paystack',
+      mode: 'client',
+    },
     {
       src: '~/plugins/toastr',
       mode: 'client',
