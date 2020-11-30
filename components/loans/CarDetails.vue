@@ -299,43 +299,4 @@ export default {
 .border-none {
   border: none;
 }
-
-.vSelect .vs__selected {
-  margin: 0;
-}
-
-.vSelect .vs__search::placeholder,
-.vSelect .vs__dropdown-toggle,
-.vSelect .vs__dropdown-menu {
-  background: #ffffff;
-  border: none;
-  box-shadow: 0 2px 9px 0 rgba(169, 184, 200, 0.2);
-  text-transform: lowercase;
-  /* font-variant: small-caps; */
-  text-transform: capitalize;
-  font-family: inherit;
-  width: 100%;
-  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  vertical-align: middle;
-  background: #fff
-    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
-    no-repeat right 0.75rem center/8px 10px;
-}
-
-.vSelect .vs__actions {
-  display: block;
-  padding: 0;
-}
-
-.vSelect .vs__clear {
-  fill: #394066;
-}
-
-.vSelect .vs__open-indicator {
-  display: none;
-}
 </style>

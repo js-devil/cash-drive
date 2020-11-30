@@ -49,6 +49,8 @@
                   >
                     Pay with Card
                   </button>
+                  <!-- totalSteps < 6 && active_loan.payment_type !== 'paystack' -->
+
                   <button
                     v-else-if="
                       totalSteps < 8 && active_loan.payment_type === 'paystack'
@@ -60,10 +62,11 @@
                   </button>
 
                   <b-modal
+                    centered
                     ref="mandate"
                     hide-header
                     hide-footer
-                    title="Using Component Methods"
+                    content-class="mandate"
                     @click:outside="$emit('close')"
                   >
                     <mandate @close="hideModal"></mandate>

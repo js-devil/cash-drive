@@ -81,7 +81,13 @@ export default {
         : '<span class="badge badge-secondary">Neutral</span>',
 
     repaymentPlan: plan =>
-      plan == 1 ? 'every month' : plan == 2 ? 'every two months' : 'quarterly',
+      !plan
+        ? '-'
+        : plan == 1
+        ? 'every month'
+        : plan == 2
+        ? 'every two months'
+        : 'quarterly',
 
     checkLoanIsActive: ({ status }) =>
       status == 1 || status == 3 || status == 4 || status == 5,
