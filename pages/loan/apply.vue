@@ -74,6 +74,14 @@ export default {
       offerDetails: {},
     };
   },
+  mounted() {
+    const { status } = this.$route.query;
+
+    if (status && status == 0) {
+      this.offerDetails = this.$store.state.loan_application;
+      this.step = 3;
+    }
+  },
   methods: {
     async applyForLoan() {
       this.$store.commit('set', { loading: true });

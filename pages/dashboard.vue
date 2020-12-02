@@ -85,7 +85,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <!-- <div class="card">
           <div class="card-body">
             <div class="d-flex d-lg-flex d-md-block align-items-center">
               <div>
@@ -101,7 +101,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- *************************************************************** -->
       <!-- End First Cards -->
@@ -185,8 +185,16 @@
         <div class="col-lg-8 col-md-12">
           <div class="card">
             <div class="card-body">
-              <div class="d-flex align-items-center mb-4">
+              <div class="d-flex mb-4 justify-content-between">
                 <h4 class="card-title">Recent Loans</h4>
+
+                <button
+                  v-if="!activeLoans.length"
+                  class="btn btn-sm btn-secondary"
+                  @click="$router.push('/loan/apply')"
+                >
+                  Apply for Loan
+                </button>
               </div>
               <div class="table-responsive">
                 <table class="table no-wrap v-middle mb-0">

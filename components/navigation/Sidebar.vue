@@ -53,8 +53,8 @@
             >
           </li>
           <li class="sidebar-item">
-            <n-link class="sidebar-link" to="/user/cards"
-              ><i class="feather icon-credit-card"></i
+            <n-link class="sidebar-link" to="/user/accounts"
+              ><i class="feather icon-list"></i
               ><span class="hide-menu">Accounts</span></n-link
             >
           </li>

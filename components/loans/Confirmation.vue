@@ -24,14 +24,13 @@
               <p>
                 Your loan estimation is ready
                 <br />
-                For your {{ offerDetails.year }} {{ offerDetails.make }}
-                {{ offerDetails.model }} {{ offerDetails.trim }}, we offer you a
-                loan amount of {{ formatAmount(offerDetails.offer_amount) }} for
+                For your vehicle, we offer you a loan amount of
+                {{ formatAmount(offerDetails.offer_amount) }} for
                 {{ offerDetails.offer_tenor }} months
                 <br />
                 You pay back with an interest of
-                {{ formatAmount(offerDetails.monthly_interest) }} to be paid
-                {{ repaymentPlan }}
+                {{ formatAmount(offerDetails.monthly_repayment) }} to be paid
+                {{ repaymentPlan(offerDetails.offer_repayment_plan) }}
               </p>
 
               <button class="btn btn-secondary" @click="acceptOffer">
@@ -54,15 +53,6 @@ import Swal from 'sweetalert2';
 export default {
   props: {
     offerDetails: Object,
-  },
-  computed: {
-    repaymentPlan() {
-      return this.offerDetails == 1
-        ? 'every month'
-        : this.offerDetails == 2
-        ? 'every two months'
-        : 'quarterly';
-    },
   },
   methods: {
     proceed() {

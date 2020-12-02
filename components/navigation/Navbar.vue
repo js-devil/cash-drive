@@ -41,7 +41,7 @@
               aria-expanded="false"
             >
               <img
-                src="/img/users/profile-pic.jpg"
+                src="~/assets/img/user.svg"
                 alt="user"
                 class="rounded-circle"
                 width="40"

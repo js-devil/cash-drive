@@ -35,7 +35,7 @@
               <p>Set Inspection Date</p>
             </div>
 
-            <div class="stepwizard-step">
+            <!-- <div class="stepwizard-step">
               <a
                 href="javascript:void(0)"
                 type="button"
@@ -44,6 +44,17 @@
                 <i class="feather icon-navigation"></i>
               </a>
               <p>Select Payment Type</p>
+            </div> -->
+
+            <div class="stepwizard-step">
+              <a
+                href="javascript:void(0)"
+                type="button"
+                :class="`${btnClass} ${step === 4 && 'active'}`"
+              >
+                <i class="feather icon-camera"></i>
+              </a>
+              <p>Take Selfie</p>
             </div>
 
             <div class="stepwizard-step">
@@ -52,9 +63,9 @@
                 type="button"
                 :class="`${btnClass} ${step === 5 && 'active'}`"
               >
-                <i class="feather icon-camera"></i>
+                <i class="feather icon-check"></i>
               </a>
-              <p>Take Selfie</p>
+              <p>Finish</p>
             </div>
           </div>
         </div>
@@ -62,8 +73,8 @@
         <AccountDetails id="step1" v-if="step === 1" />
         <Documents id="step1" v-else-if="step === 2" />
         <inspection-date id="step3" v-else-if="step === 3"></inspection-date>
-        <payment-types v-else-if="step === 4"></payment-types>
-        <take-selfie v-else-if="step === 5"></take-selfie>
+        <!-- <payment-types v-else-if="step === 4"></payment-types> -->
+        <take-selfie v-else-if="step === 4"></take-selfie>
         <Done v-else />
       </div>
     </div>
@@ -102,7 +113,7 @@ export default {
       const {
         passed_bvn,
         passed_document_upload,
-        passed_payment_setup,
+        // passed_payment_setup,
         passed_picture_upload,
         passed_repayment_setup,
         passed_set_inspection_date,
@@ -111,7 +122,7 @@ export default {
       return (
         passed_bvn +
         passed_document_upload +
-        passed_payment_setup +
+        // passed_payment_setup +
         passed_picture_upload +
         passed_repayment_setup +
         passed_set_inspection_date +

@@ -55,6 +55,13 @@
                             @click="reapply(loan)"
                             >Re-apply</b-btn
                           >
+
+                          <b-btn
+                            v-else-if="loan.status == 0"
+                            size="sm"
+                            @click="continueLoan(loan)"
+                            >Continue</b-btn
+                          >
                         </td>
                       </tr>
                     </tbody>
@@ -75,6 +82,14 @@
             </div>
           </div>
         </div>
+
+        <button
+          v-if="!activeLoan"
+          @click="$router.push('/loan/apply')"
+          class="btn btn-sm btn-primary floating"
+        >
+          <i class="feather icon-plus"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -86,10 +101,11 @@ export default {
   data: () => ({ loans: [], search: '' }),
   methods: {
     async viewLoan(loan) {
+      // if (loan.status == 4) return this.$router.push('/loan/active');
+
       const {
         passed_bvn,
         passed_document_upload,
-        passed_payment_setup,
         passed_picture_upload,
         passed_repayment_setup,
         passed_set_inspection_date,
@@ -98,7 +114,6 @@ export default {
       if (
         !passed_bvn ||
         !passed_document_upload ||
-        !passed_payment_setup ||
         !passed_picture_upload ||
         !passed_repayment_setup ||
         !passed_set_inspection_date
@@ -110,6 +125,12 @@ export default {
       }
 
       this.$router.push('/loan/active');
+    },
+    continueLoan(loan) {
+      this.$store.commit('set', {
+        loan_application: loan,
+      });
+      this.$router.push('/loan/apply?status=0');
     },
     reapply(loan) {
       const { desired_amount, desired_tenor, desired_repayment_plan } = loan;
@@ -143,4 +164,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.floating {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.floating i {
+  font-size: 24px;
+}
+</style>

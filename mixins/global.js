@@ -17,18 +17,18 @@ export default {
           'Network Error!',
         );
 
-      if (response.status === 401) return this.sessionExpired();
-
       const { message } = response.data;
-
-      if (message.toLowerCase().includes('token is invalid')) {
-        return;
-      }
+      if (response.status === 401)
+        if (
+          message.toLowerCase().includes('expired') &&
+          message.toLowerCase().includes('token')
+        )
+          return this.sessionExpired();
 
       Swal.fire({
         imageUrl,
         imageAlt: 'forbidden',
-        imageHeight: 200,
+        imageHeight: 125,
         title: 'Oops!',
         text: message || 'An error occured!',
         // showConfirmButton: false,
@@ -103,6 +103,23 @@ export default {
         });
 
         this.loans = res.data.data;
+        this.$store.commit('set', { loading: false });
+      } catch (err) {
+        this.catchErrors(err);
+      }
+    },
+    async getBanks() {
+      this.$store.commit('set', { loading: true });
+
+      try {
+        const res = await this.$axios({
+          url: '/banks',
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+
+        this.banks = res.data.data;
         this.$store.commit('set', { loading: false });
       } catch (err) {
         this.catchErrors(err);

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="form-group customize-input">
-          <label class="text-dark">Account Number</label>
+          <label class="text-dark">Account Name</label>
           <input
             class="form-control bg-white custom-radius custom-shadow border-0 text-capitalize"
             :value="userNames"

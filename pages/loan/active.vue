@@ -2,7 +2,7 @@
   <div class="page-wrapper">
     <div class="page-breadcrumb">
       <div class="container-fluid">
-        <div class="row">
+        <div class="row" v-if="active_loan">
           <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card">
               <div class="card-content">
@@ -34,31 +34,44 @@
                 </ul>
                 <div class="card-body text-center">
                   <button
-                    v-if="totalSteps < 5"
+                    v-if="totalSteps < 4"
                     @click="$router.push('/loan/information')"
                     class="btn btn-primary btn-darken-3 waves-effect waves-light"
                   >
                     Continue
                   </button>
-                  <button
-                    v-else-if="
-                      totalSteps < 6 && active_loan.payment_type !== 'paystack'
-                    "
-                    @click="openPaystack"
-                    class="btn btn-danger btn-darken-3 waves-effect waves-light"
-                  >
-                    Pay with Card
-                  </button>
-                  <!-- totalSteps < 6 && active_loan.payment_type !== 'paystack' -->
+                  <div v-else-if="totalSteps < 5 && active_loan.status == 4">
+                    <button
+                      v-if="!active_loan.card_setup"
+                      @click="openPaystack"
+                      class="btn btn-danger btn-darken-3 waves-effect waves-light"
+                    >
+                      Setup Card
+                    </button>
+                    <!-- totalSteps < 6 && active_loan.payment_type !== 'paystack' -->
+
+                    <button
+                      v-if="!active_loan.mandate_setup"
+                      @click="showModal"
+                      class="btn btn-info btn-darken-3 waves-effect waves-light"
+                    >
+                      Setup Direct Debit
+                    </button>
+                  </div>
 
                   <button
-                    v-else-if="
-                      totalSteps < 8 && active_loan.payment_type === 'paystack'
-                    "
-                    @click="showModal"
-                    class="btn btn-danger btn-darken-3 waves-effect waves-light"
+                    v-else
+                    @click="proceed"
+                    class="btn btn-primary btn-darken-3 waves-effect waves-light"
                   >
-                    Pay with Bank Transfer
+                    Continue
+                  </button>
+
+                  <button
+                    @click="showModal"
+                    class="btn btn-info btn-darken-3 waves-effect waves-light"
+                  >
+                    Setup Direct Debit
                   </button>
 
                   <b-modal
@@ -69,7 +82,7 @@
                     content-class="mandate"
                     @click:outside="$emit('close')"
                   >
-                    <mandate @close="hideModal"></mandate>
+                    <mandate :banks="banks" @close="hideModal"></mandate>
                   </b-modal>
 
                   <form @submit.prevent="">
@@ -183,6 +196,29 @@
             </div>
           </div>
         </div>
+
+        <div class="mt-5 text-center" v-else>
+          <img src="~/assets/img/info-img.png" height="200" />
+          <p>You have no active loan at this time</p>
+
+          <button
+            @click="showModal"
+            class="btn btn-info btn-darken-3 waves-effect waves-light"
+          >
+            Setup Direct Debit
+          </button>
+
+          <b-modal
+            centered
+            ref="mandate"
+            hide-header
+            hide-footer
+            content-class="mandate"
+            @click:outside="$emit('close')"
+          >
+            <mandate :banks="banks" @close="hideModal"></mandate>
+          </b-modal>
+        </div>
       </div>
     </div>
   </div>
@@ -197,7 +233,13 @@ export default {
   components: { Paystack, Mandate },
   middleware: 'authenticated',
   data() {
-    return { active_loan: [], self: this, componentKey: 88, paystack: false };
+    return {
+      active_loan: null,
+      banks: [],
+      self: this,
+      componentKey: 88,
+      paystack: false,
+    };
   },
   methods: {
     async getActiveLoan() {
@@ -216,7 +258,8 @@ export default {
         this.$store.commit('set', {
           loan_offer: res.data.data,
         });
-        this.$store.commit('set', { loading: false });
+
+        await this.getBanks();
       } catch (err) {
         this.catchErrors(err);
       }
@@ -274,10 +317,20 @@ export default {
     hideModal() {
       this.$refs.mandate.hide();
     },
+    proceed() {
+      Swal.fire({
+        icon: 'info',
+        html: `
+          <p style="margin-bottom: 5px">Check your mail to see the contract for this loan</p>
+          <p style="margin-bottom: 5px">Sign it and come back here to continue</p>
+        `,
+      });
+    },
   },
   computed: {
     levels() {
       let levels = {};
+      if (!this.active_loan) return {};
       for (let i in this.active_loan.level)
         if (i.includes('passed'))
           levels = { ...levels, [i]: this.active_loan.level[i] };
