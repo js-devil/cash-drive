@@ -26,11 +26,14 @@ export default {
   computed: {
     ...mapGetters(['showLoader']),
     isDashboard() {
+      if (!this.$route.name) return false;
+
       return (
         this.$route.name !== 'index' &&
         this.$route.name !== 'register' &&
         this.$route.name !== 'login' &&
-        !this.$route.name.includes('password')
+        !this.$route.name.includes('password') &&
+        !this.$route.name.includes('contract')
       );
     },
   },
@@ -78,6 +81,16 @@ export default {
   background: #fff
     url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
     no-repeat right 0.75rem center/8px 10px;
+}
+.vSelect .vs__dropdown-menu {
+  list-style: none;
+  padding-top: 5px;
+  background: #fff;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.vSelect .vs__dropdown-menu li:hover {
+  cursor: pointer;
 }
 
 .vSelect .vs__actions {

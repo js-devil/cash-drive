@@ -3,7 +3,7 @@ const imageUrl =
   'https://upload.wikimedia.org/wikipedia/commons/0/03/Forbidden_Symbol_Transparent.svg';
 
 export const Naira = '\u20A6';
-const months = [
+export const months = [
   'January',
   'February',
   'March',

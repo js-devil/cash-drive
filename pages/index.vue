@@ -131,6 +131,7 @@ export default {
             },
           });
           this.$router.push('/dashboard');
+          this.$store.commit('set', { loading: true });
         }
       } catch (err) {
         this.loading = false;

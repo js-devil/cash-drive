@@ -107,7 +107,6 @@ export default {
         passed_bvn,
         passed_document_upload,
         passed_picture_upload,
-        passed_repayment_setup,
         passed_set_inspection_date,
       } = loan.level;
 
@@ -115,7 +114,6 @@ export default {
         !passed_bvn ||
         !passed_document_upload ||
         !passed_picture_upload ||
-        !passed_repayment_setup ||
         !passed_set_inspection_date
       ) {
         this.$store.commit('set', {

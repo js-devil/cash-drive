@@ -67,22 +67,21 @@
                     Continue
                   </button>
 
-                  <button
-                    @click="showModal"
-                    class="btn btn-info btn-darken-3 waves-effect waves-light"
-                  >
-                    Setup Direct Debit
-                  </button>
-
                   <b-modal
                     centered
                     ref="mandate"
                     hide-header
                     hide-footer
+                    no-close-on-esc
+                    no-close-on-backdrop
                     content-class="mandate"
-                    @click:outside="$emit('close')"
                   >
-                    <mandate :banks="banks" @close="hideModal"></mandate>
+                    <mandate
+                      :banks="banks"
+                      :loan="active_loan"
+                      :key="mandateComp + 'av'"
+                      @close="hideModal"
+                    ></mandate>
                   </b-modal>
 
                   <form @submit.prevent="">
@@ -200,24 +199,6 @@
         <div class="mt-5 text-center" v-else>
           <img src="~/assets/img/info-img.png" height="200" />
           <p>You have no active loan at this time</p>
-
-          <button
-            @click="showModal"
-            class="btn btn-info btn-darken-3 waves-effect waves-light"
-          >
-            Setup Direct Debit
-          </button>
-
-          <b-modal
-            centered
-            ref="mandate"
-            hide-header
-            hide-footer
-            content-class="mandate"
-            @click:outside="$emit('close')"
-          >
-            <mandate :banks="banks" @close="hideModal"></mandate>
-          </b-modal>
         </div>
       </div>
     </div>
@@ -239,6 +220,7 @@ export default {
       self: this,
       componentKey: 88,
       paystack: false,
+      mandateComp: 21,
     };
   },
   methods: {
@@ -312,10 +294,11 @@ export default {
     },
     showModal() {
       this.$refs.mandate.show();
-      console.log(this.$refs);
+      this.mandateComp += 1;
     },
     hideModal() {
       this.$refs.mandate.hide();
+      this.mandateComp += 1;
     },
     proceed() {
       Swal.fire({

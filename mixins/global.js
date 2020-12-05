@@ -1,4 +1,4 @@
-import mixins from './mixins';
+import mixins, { months } from './mixins';
 const imageUrl =
   'https://upload.wikimedia.org/wikipedia/commons/0/03/Forbidden_Symbol_Transparent.svg';
 import Swal from 'sweetalert2';
@@ -126,7 +126,9 @@ export default {
       }
     },
   },
-  data: () => ({}),
+  data: () => ({
+    months,
+  }),
   computed: {
     ...mapState(['user']),
     userNames() {
