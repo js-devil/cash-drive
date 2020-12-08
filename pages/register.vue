@@ -218,6 +218,7 @@ export default {
               loggedIn: true,
             },
           });
+          this.$store.commit('set', { loading: true });
           this.$router.push('/dashboard');
         }
       } catch (err) {

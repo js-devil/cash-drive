@@ -33,7 +33,7 @@ export default {
         this.$route.name !== 'register' &&
         this.$route.name !== 'login' &&
         !this.$route.name.includes('password') &&
-        !this.$route.name.includes('contract')
+        !this.$route.name.includes('confident')
       );
     },
   },
@@ -43,6 +43,11 @@ export default {
 <style>
 .swal2-title {
   font-size: 1.5rem;
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: #e26511 !important;
+  outline: none;
 }
 
 .btn-primary,

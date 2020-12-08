@@ -2,6 +2,7 @@
   <div class="container">
     <div class="row">
       <div
+        v-if="!error"
         class="contract-page col-lg-8 offset-lg-2 col-sm-6 offset-sm-3 col-12"
       >
         <header class="bg-primary text-center">
@@ -30,8 +31,11 @@
           </div>
 
           <div class="w-50 mx-auto">
-            <h5 class="mb-0 underline px-3" style="font-size: 24px">
-              {{ user.name }}
+            <h5
+              class="mb-0 text-capitalize underline px-3"
+              style="font-size: 24px"
+            >
+              {{ userNames }}
             </h5>
             <span class="font-weight-bolder">(The "Borrower")</span>
           </div>
@@ -48,13 +52,13 @@
             <p>
               The Lender promises to loan
               <span class="underline font-weight-bolder">{{
-                formatAmount(10000)
+                formatAmount(auth.offer_amount)
               }}</span>
               to the Borrower and the Borrower promises to repay this principal
               amount to the Lender, without interest payable on the unpaid
               principal, beginning on
               <span class="font-weight-bold">
-                {{ formatDate(user.repayment_date) }}</span
+                {{ formatDate(auth.repayment_date) }}</span
               >.
             </p>
 
@@ -62,6 +66,7 @@
               <button
                 class="btn-sm btn-primary mr-3 border-0 py-2"
                 style="width: 100px"
+                @click="showSignModal = true"
               >
                 Sign
               </button>
@@ -100,20 +105,86 @@
             +234 703 491 2176
           </p>
         </footer>
+
+        <b-modal
+          centered
+          ref="otpModal"
+          hide-header
+          hide-footer
+          no-close-on-esc
+          no-close-on-backdrop
+          content-class="mandate"
+        >
+          <OTP @close="showSignModal = false" />
+        </b-modal>
+      </div>
+
+      <div
+        v-else
+        class="col-lg-8 offset-lg-2 col-sm-6 offset-sm-3 col-12 p-3 error-main"
+      >
+        <img
+          src="https://cashdrive.co/_elements/home/logo.png"
+          class="img-fluid mt-3"
+          style="width: 150px; height: 40px"
+        />
+        <h4 class="mt-4">This token is invalid or has expired!</h4>
+
+        <n-link to="/login" class="btn btn-primary mt-3"
+          >Let's get you back</n-link
+        >
+        <p class="mt-4">CashDrive © 2020</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import OTP from '~/components/OTP.vue';
 export default {
+  components: { OTP },
   data() {
     return {
-      user: {
-        name: 'Oluwaseyi Joshua',
+      auth: {
+        offer_amount: 10000,
         repayment_date: new Date(),
       },
+      error: false,
+      showSignModal: false,
     };
+  },
+  methods: {
+    async getUserDetails(token) {
+      try {
+        const res = await this.$axios({
+          url: `/contracts/verify/${token}`,
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+
+        this.auth = res.data.data;
+        this.$store.commit('set', { loading: false });
+      } catch (e) {
+        this.error = true;
+        if (!e.response) return this.catchErrors(e);
+
+        this.$store.commit('set', { loading: false });
+      }
+    },
+  },
+  mounted() {
+    // this.$store.commit('set', { loading: true });
+    // const { id } = this.$route.params;
+    // if (id) return this.getUserDetails(id);
+    // this.$store.commit('set', { loading: false });
+    // this.$router.push('/');
+  },
+  watch: {
+    showSignModal() {
+      if (this.showSignModal) return this.$refs.otpModal.show();
+      this.$refs.otpModal.hide();
+    },
   },
   computed: {
     thisDay() {
@@ -162,5 +233,12 @@ body {
 .contract-page main .underline {
   border-bottom: 2px solid;
   padding: 0 25px;
+}
+
+.error-main {
+  margin-top: 200px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0px 10px 10px -10px #5d6572;
 }
 </style>

@@ -130,8 +130,9 @@ export default {
               loggedIn: true,
             },
           });
-          this.$router.push('/dashboard');
+
           this.$store.commit('set', { loading: true });
+          this.$router.push('/dashboard');
         }
       } catch (err) {
         this.loading = false;

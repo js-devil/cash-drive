@@ -2,7 +2,7 @@
   <div class="card-body">
     <div class="coupons text-center">
       <div class="coupons-title">
-        <p>Account Details for this transaction</p>
+        <p>Enter the code sent to your phone</p>
 
         <span
           class="badge badge-pill bg-danger close-modal rounded-circle py-1 px-1"
@@ -10,32 +10,26 @@
           <i @click="$emit('close')" class="feather icon-x text-white"></i>
         </span>
       </div>
+      <hr />
     </div>
 
-    <hr />
-    <div class="detail">
-      <div class="detail-title">Bank</div>
-      <div class="detail-amt text-uppercase">{{ bank }}</div>
-    </div>
-    <div class="detail">
-      <div class="detail-title">Account Name</div>
-      <div class="detail-amt text-uppercase">{{ account.payer_name }}</div>
-    </div>
-    <div class="detail">
-      <div class="detail-title">Account Number</div>
-      <div class="detail-amt discount-amt">{{ account.payer_account }}</div>
-    </div>
-    <div class="detail">
-      <div class="detail-title">Email Address</div>
-      <div class="detail-amt">{{ account.payer_email }}</div>
-    </div>
-    <div class="detail">
-      <div class="detail-title">Phone Number</div>
-      <div class="detail-amt emi-details">{{ account.payer_phone }}</div>
-    </div>
+    <form @submit.prevent="" class="text-center">
+      <img src="~/assets/img/sign.svg" class="my-3" height="150" />
+      <div class="form-group">
+        <!-- <label class="text-dark">Account Number</label> -->
+        <input
+          class="form-control bg-white custom-radius custom-shadow border-none"
+          v-model="otp"
+          autocomplete="off"
+          placeholder="Code must be a 4-digit number"
+        />
+      </div>
+      <a href="javascript:void(0)" @click="resendOTP" class="text-right"></a>
+    </form>
+
     <hr />
     <div
-      @click.prevent="initiateMandate(account)"
+      @click.prevent="validateSubmit"
       class="btn btn-primary btn-block place-order waves-effect waves-light"
     >
       Submit
@@ -44,51 +38,25 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 export default {
-  props: {
-    banks: Array,
-    loan: Object,
-  },
   data() {
     return {
-      bank: '',
-      selectedAccount: '',
-      account: {},
-      loading: false,
+      otp: '',
     };
   },
-  mounted() {
-    this.getAccount();
-  },
   methods: {
-    getAccount() {
-      const account = this.user.banks.find(key => Boolean(key.status) === true);
-      if (!account) this.account = {};
+    validateSubmit() {
+      const { userNames: full_name, otp } = this;
+      if (!otp || otp.length !== 4 || !this.validateNumbers(otp))
+        return this.$toastr.e('Invalid Code');
 
-      const {
-        holder_name: payer_name,
-        name,
-        number: payer_account,
-        code: payer_bank_code,
-      } = account;
-      this.bank = name;
-
-      this.account = {
-        payer_email: this.user.email,
-        payer_phone: this.user.phone,
-        payer_bank_code,
-        payer_name,
-        payer_account,
-      };
+      this.signContract({ full_name, otp });
     },
-    async initiateMandate(data) {
-      console.log(data);
-      return;
-      this.$store.commit('set', { loading: true });
-
+    async signContract(data) {
       try {
         const res = await this.$axios({
-          url: `/loans/${this.loan.id}/direct-debit/initiate`,
+          url: `/contracts/sign`,
           method: 'post',
           data,
           headers: {
@@ -96,10 +64,42 @@ export default {
           },
         });
 
-        this.banks = res.data.data;
+        Swal.fire({
+          icon: 'success',
+          text: res.data.message,
+          allowOutsideClick: false,
+          allowEnterKey: false,
+          allowEscapeKey: false,
+        });
         this.$store.commit('set', { loading: false });
-      } catch (err) {
-        this.catchErrors(err);
+
+        setTimeout(() => {
+          this.$router.push('/loan/active');
+        }, 3000);
+      } catch (e) {
+        this.catchErrors(e);
+      }
+    },
+    async resendOTP() {
+      try {
+        const res = await this.$axios({
+          url: `/loans/payment/remita/${this.loan.id}/request-otp`,
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+
+        Swal.fire({
+          icon: 'success',
+          text: res.data.message,
+        });
+        this.$store.commit('set', { loading: false });
+
+        setTimeout(() => {
+          this.$router.push('/loan/active');
+        }, 3000);
+      } catch (e) {
+        this.catchErrors(e);
       }
     },
   },

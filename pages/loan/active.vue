@@ -300,7 +300,34 @@ export default {
       this.$refs.mandate.hide();
       this.mandateComp += 1;
     },
+    async resendMail() {
+      this.$store.commit('set', { loading: true });
+
+      try {
+        const res = await this.$axios({
+          url: `/loans/${this.active_loan.id}/contract/resend`,
+          headers: {
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+
+        this.active_loan.refresh_contract = false;
+
+        Swal.fire({
+          icon: 'info',
+          html: `
+          <p style="margin-bottom: 5px">Check your mail to see the contract for this loan</p>
+          <p style="margin-bottom: 5px">Sign it and come back here to continue</p>
+        `,
+        });
+        this.$store.commit('set', { loading: false });
+      } catch (err) {
+        this.catchErrors(err);
+      }
+    },
     proceed() {
+      if (this.active_loan.refresh_contract) return this.resendMail();
+
       Swal.fire({
         icon: 'info',
         html: `
@@ -325,6 +352,10 @@ export default {
   },
   mounted() {
     this.getActiveLoan();
+
+    setTimeout(() => {
+      this.getActiveLoan();
+    }, 300000);
   },
 };
 </script>

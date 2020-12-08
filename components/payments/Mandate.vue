@@ -1,7 +1,12 @@
 <template>
   <div class="card">
     <div class="card-content">
-      <initiate :banks="banks" :loan="loan" v-if="step == 1"></initiate>
+      <initiate
+        :banks="banks"
+        @close="$emit('close')"
+        :loan="loan"
+        v-if="step == 1"
+      ></initiate>
     </div>
   </div>
 </template>

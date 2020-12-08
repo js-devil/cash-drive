@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="col-lg-12">
+      <!-- <div class="col-lg-12">
         <div class="form-group customize-input">
           <label class="text-dark">Account Name</label>
           <input
@@ -26,7 +26,7 @@
             placeholder="Account Name must be the same name registered on BVN"
           />
         </div>
-      </div>
+      </div> -->
 
       <div class="col-lg-12">
         <div class="form-group customize-input">
@@ -86,6 +86,7 @@ export default {
     banks: [],
   }),
   mounted() {
+    this.account.holder_name = this.userNames
     this.getBanks();
   },
   methods: {
@@ -118,6 +119,7 @@ export default {
 
       this.verifyAccount({
         type,
+        holder_name,
         bvn,
         name,
         number,

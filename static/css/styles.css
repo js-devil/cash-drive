@@ -1,3 +1,5 @@
+@import './font.css';
+
 .fa-fw,
 .fa-li {
   text-align: center;
@@ -21,42 +23,7 @@ input {
 .navbar-nav {
   list-style: none;
 }
-@font-face {
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: local('Rubik Light'), local('Rubik-Light'),
-    url(https://fonts.gstatic.com/s/rubik/v9/iJWHBXyIfDnIV7Fqj2md8WU.ttf)
-      format('truetype');
-}
-@font-face {
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Rubik'), local('Rubik-Regular'),
-    url(https://fonts.gstatic.com/s/rubik/v9/iJWKBXyIfDnIV7nBrXk.ttf)
-      format('truetype');
-}
-@font-face {
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: local('Rubik Medium'), local('Rubik-Medium'),
-    url(https://fonts.gstatic.com/s/rubik/v9/iJWHBXyIfDnIV7Eyjmmd8WU.ttf)
-      format('truetype');
-}
-@font-face {
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Rubik Bold'), local('Rubik-Bold'),
-    url(https://fonts.gstatic.com/s/rubik/v9/iJWHBXyIfDnIV7F6iGmd8WU.ttf)
-      format('truetype');
-}
+
 article,
 aside,
 figcaption,
@@ -3313,20 +3280,9 @@ legend {
 .icon-social-dropbox:before {
   content: '\e00c';
 }
-@font-face {
-  font-family: themify;
-  src: url(icons/themify-icons/fonts/themify.eot?-fvbane);
-  src: url(icons/themify-icons/fonts/themify.eot?#iefix-fvbane)
-      format('embedded-opentype'),
-    url(icons/themify-icons/fonts/themify.woff) format('woff'),
-    url(icons/themify-icons/fonts/themify.ttf) format('truetype'),
-    url(icons/themify-icons/fonts/themify.svg?-fvbane#themify) format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
 [class*=' ti-'],
 [class^='ti-'] {
-  font-family: themify;
+  font-family: 'Gilroy', sans-serif;
   speak: none;
   font-style: normal;
   font-weight: 400;
@@ -4431,7 +4387,7 @@ legend {
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: 'Rubik', sans-serif;
+  --font-family-sans-serif: 'Gilroy', sans-serif !important;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
 }
@@ -4441,13 +4397,13 @@ legend {
   box-sizing: border-box;
 }
 html {
-  font-family: sans-serif;
+  font-family: 'Gilroy', sans-serif !important;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
 body {
-  font-family: Rubik, sans-serif;
+  font-family: 'Gilroy', sans-serif !important;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -9388,7 +9344,7 @@ a.badge-purple:focus {
 }
 .popover,
 .tooltip {
-  font-family: Rubik, sans-serif;
+  font-family: 'Gilroy', sans-serif, sans-serif;
   font-style: normal;
   font-weight: 400;
   text-transform: none;
@@ -14659,31 +14615,6 @@ ul.list-style-none li a:hover {
 .bg-twitter {
   background-color: #56adf2;
 }
-.landingpage-fonts {
-  font-family: TofinoPersonal-Regular, sans-serif;
-  color: #616b7a;
-}
-.landingpage-fonts .font-tofino-regular {
-  font-family: TofinoPersonal-Regular;
-}
-.landingpage-fonts .font-tofino-book {
-  font-family: TofinoPersonal-Book;
-}
-.landingpage-fonts .font-tofino-medium {
-  font-family: TofinoPersonal-Medium;
-}
-.landingpage-fonts .font-gilmer-heavy {
-  font-family: Gilmer-Heavy;
-}
-.landingpage-fonts .font-gilmer-bold {
-  font-family: Gilmer-Bold;
-}
-.landingpage-fonts .font-gilmer-regular {
-  font-family: Gilmer-Regular;
-}
-.landingpage-fonts .font-gilmer-medium {
-  font-family: Gilmer-Medium;
-}
 .landingpage-fonts h1 {
   font-size: 39px;
 }
@@ -14711,15 +14642,7 @@ ul.list-style-none li a:hover {
 .landingpage-fonts .font-17 {
   font-size: 17px;
 }
-.landingpage-fonts h1,
-.landingpage-fonts h2,
-.landingpage-fonts h3,
-.landingpage-fonts h4,
-.landingpage-fonts h5,
-.landingpage-fonts h6 {
-  font-family: Gilmer-Heavy, sans-serif;
-  color: #2a3544;
-}
+
 .btn-custom {
   padding: 15px 31px;
   border-radius: 50px;
@@ -15231,74 +15154,4 @@ ul.list-style-none li a:hover {
   .fc-today-button {
     display: none;
   }
-}
-@font-face {
-  font-family: TofinoPersonal-Medium;
-  src: url(fonts/TofinoPersonal-Medium.eot?#iefix) format('embedded-opentype'),
-    url(fonts/TofinoPersonal-Medium.otf) format('opentype'),
-    url(fonts/TofinoPersonal-Medium.woff) format('woff'),
-    url(fonts/TofinoPersonal-Medium.ttf) format('truetype'),
-    url(fonts/TofinoPersonal-Medium.svg#TofinoPersonal-Medium) format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: TofinoPersonal-Regular;
-  src: url(fonts/TofinoPersonal-Regular.eot?#iefix) format('embedded-opentype'),
-    url(fonts/TofinoPersonal-Regular.otf) format('opentype'),
-    url(fonts/TofinoPersonal-Regular.woff) format('woff'),
-    url(fonts/TofinoPersonal-Regular.ttf) format('truetype'),
-    url(fonts/TofinoPersonal-Regular.svg#TofinoPersonal-Regular) format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: TofinoPersonal-Book;
-  src: url(fonts/TofinoPersonal-Book.eot?#iefix) format('embedded-opentype'),
-    url(fonts/TofinoPersonal-Book.otf) format('opentype'),
-    url(fonts/TofinoPersonal-Book.woff) format('woff'),
-    url(fonts/TofinoPersonal-Book.ttf) format('truetype'),
-    url(fonts/TofinoPersonal-Book.svg#TofinoPersonal-Book) format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: Gilmer-Heavy;
-  src: url(fonts/Gilmer-Heavy.eot?#iefix) format('embedded-opentype'),
-    url(fonts/Gilmer-Heavy.otf) format('opentype'),
-    url(fonts/Gilmer-Heavy.woff) format('woff'),
-    url(fonts/Gilmer-Heavy.ttf) format('truetype'),
-    url(fonts/Gilmer-Heavy.svg#Gilmer-Heavy) format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: Gilmer-Regular;
-  src: url(fonts/Gilmer-Regular.eot?#iefix) format('embedded-opentype'),
-    url(fonts/Gilmer-Regular.otf) format('opentype'),
-    url(fonts/Gilmer-Regular.woff) format('woff'),
-    url(fonts/Gilmer-Regular.ttf) format('truetype'),
-    url(fonts/Gilmer-Regular.svg#Gilmer-Regular) format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: Gilmer-Medium;
-  src: url(fonts/Gilmer-Medium.eot?#iefix) format('embedded-opentype'),
-    url(fonts/Gilmer-Medium.otf) format('opentype'),
-    url(fonts/Gilmer-Medium.woff) format('woff'),
-    url(fonts/Gilmer-Medium.ttf) format('truetype'),
-    url(fonts/Gilmer-Medium.svg#Gilmer-Medium) format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: Gilmer-Bold;
-  src: url(fonts/Gilmer-Bold.eot?#iefix) format('embedded-opentype'),
-    url(fonts/Gilmer-Bold.otf) format('opentype'),
-    url(fonts/Gilmer-Bold.woff) format('woff'),
-    url(fonts/Gilmer-Bold.ttf) format('truetype'),
-    url(fonts/Gilmer-Bold.svg#Gilmer-Bold) format('svg');
-  font-weight: 400;
-  font-style: normal;
 }

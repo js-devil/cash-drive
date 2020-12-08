@@ -74,7 +74,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'http://52.177.172.188/api/v1',
+    baseURL: 'https://52.177.172.188/api/v1',
     progress: true,
   },
 

@@ -96,7 +96,7 @@ export default {
             'Successful!',
           );
 
-          this.$router.push('/');
+          this.$router.push('/login');
         }
       } catch (err) {
         this.loading = false;
