@@ -80,6 +80,7 @@ export default {
     if (status && status == 0) {
       this.offerDetails = this.$store.state.loan_application;
       this.step = 3;
+      this.$store.commit('set', { loading: false });
     }
   },
   methods: {

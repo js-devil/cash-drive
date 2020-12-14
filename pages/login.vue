@@ -82,6 +82,7 @@ export default {
     errorMessage: '',
     loading: false,
     error: false,
+    loan_offer: {},
   }),
   methods: {
     validateSubmit() {
@@ -129,9 +130,11 @@ export default {
               token,
               loggedIn: true,
             },
+            loading: true,
           });
 
-          this.$store.commit('set', { loading: true });
+          if (this.$route.query.token)
+            return this.continueLoan(this.loan_offer);
           this.$router.push('/dashboard');
         }
       } catch (err) {
@@ -139,6 +142,14 @@ export default {
         this.catchErrors(err);
       }
     },
+  },
+  created() {
+    const { token } = this.$route.query;
+    if (token) {
+      const data = JSON.parse(atob(token));
+      this.loan_offer = data.data;
+      this.$store.commit('set', { loading: false });
+    }
   },
 };
 </script>

@@ -19,10 +19,10 @@ export default {
     ],
     script: [
       { src: '/js/jquery.min.js' },
-      {
-        src:
-          'http://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js',
-      },
+      //   {
+      //     src:
+      //       'http://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js',
+      //   },
       {
         src:
           'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js',
@@ -74,7 +74,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'https://52.177.172.188/api/v1',
+    baseURL: 'https://api.cashdrive.co/v1',
     progress: true,
   },
 

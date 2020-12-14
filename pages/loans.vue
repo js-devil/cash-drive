@@ -124,12 +124,6 @@ export default {
 
       this.$router.push('/loan/active');
     },
-    continueLoan(loan) {
-      this.$store.commit('set', {
-        loan_application: loan,
-      });
-      this.$router.push('/loan/apply?status=0');
-    },
     reapply(loan) {
       const { desired_amount, desired_tenor, desired_repayment_plan } = loan;
 

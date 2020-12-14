@@ -35,7 +35,7 @@
     </div>
     <hr />
     <div
-      @click.prevent="initiateMandate(account)"
+      @click.prevent="initiateMandate"
       class="btn btn-primary btn-block place-order waves-effect waves-light"
     >
       Submit
@@ -81,22 +81,21 @@ export default {
         payer_account,
       };
     },
-    async initiateMandate(data) {
-      console.log(data);
-      return;
+    async initiateMandate() {
       this.$store.commit('set', { loading: true });
 
       try {
         const res = await this.$axios({
           url: `/loans/${this.loan.id}/direct-debit/initiate`,
           method: 'post',
-          data,
+          data: {},
           headers: {
             Authorization: `Bearer ${this.user.token}`,
           },
         });
 
-        this.banks = res.data.data;
+        console.log(res.data);
+        this.$emit('next');
         this.$store.commit('set', { loading: false });
       } catch (err) {
         this.catchErrors(err);

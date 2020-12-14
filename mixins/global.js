@@ -18,6 +18,17 @@ export default {
         );
 
       const { message } = response.data;
+
+      if (message.includes('The hash value of the parameters do not match')) {
+        Swal.fire({
+          imageUrl,
+          imageAlt: 'forbidden',
+          imageHeight: 125,
+          title: 'Oops!',
+          text: 'Request not successful',
+          // showConfirmButton: false,
+        });
+      }
       if (response.status === 401)
         if (
           message.toLowerCase().includes('expired') &&
@@ -37,6 +48,7 @@ export default {
 
     sessionExpired() {
       localStorage.removeItem('user');
+      localStorage.setItem('isRegistered', true);
       this.$router.push('/login');
 
       Swal.fire(
@@ -58,6 +70,7 @@ export default {
       }).then(result => {
         if (result.value) {
           localStorage.removeItem('user');
+          localStorage.setItem('isRegistered', true);
           this.$router.push('/login');
 
           Swal.fire('Logged Out!', 'See you next time', 'success');
@@ -124,6 +137,12 @@ export default {
       } catch (err) {
         this.catchErrors(err);
       }
+    },
+    continueLoan(loan) {
+      this.$store.commit('set', {
+        loan_application: loan,
+      });
+      this.$router.push('/loan/apply?status=0');
     },
   },
   data: () => ({

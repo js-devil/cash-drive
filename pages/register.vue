@@ -103,16 +103,14 @@
 
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="text-dark" for="ref_code"
-                      >Referral Code</label
-                    >
+                    <label class="text-dark" for="cpwd">Password</label>
                     <input
-                      id="ref_code"
+                      id="cpwd"
                       class="form-control"
-                      v-model="auth.ref_code"
-                      type="text"
+                      type="password"
                       :disabled="loading"
-                      placeholder="enter the referral code of whoever referred you"
+                      v-model="auth.confirm_password"
+                      placeholder="confirm your password"
                     />
                   </div>
                 </div>
@@ -122,7 +120,10 @@
                     {{ loading ? 'Registering...' : 'Sign Up' }}
                   </button>
                 </div>
-                <div class="col-lg-12 text-center mt-5">
+                <div
+                  class="col-lg-12 text-center mt-5"
+                  v-if="auth.ref_code === null"
+                >
                   Have an account?
                   <n-link to="/login" class="text-danger"> Sign In </n-link>
                 </div>
@@ -143,6 +144,7 @@ export default {
     loading: false,
     error: false,
     showPass: false,
+    loan_offer: {},
   }),
   methods: {
     validateSubmit() {
@@ -153,7 +155,10 @@ export default {
         last_name,
         phone,
         ref_code,
+        confirm_password,
       } = this.auth;
+
+      console.log(ref_code);
 
       if (!first_name || !last_name) {
         this.errorMessage = 'Please enter your first and last names';
@@ -172,6 +177,11 @@ export default {
 
       if (!password || password.length !== 8) {
         this.errorMessage = 'Password should have eight (8) characters';
+        return (this.error = true);
+      }
+
+      if (confirm_password !== password) {
+        this.errorMessage = 'Please confirm your password correctly';
         return (this.error = true);
       }
 
@@ -211,14 +221,19 @@ export default {
             JSON.stringify({ ...user, token, loggedIn: true }),
           );
 
+          localStorage.setItem('new_user', false);
+
           this.$store.commit('set', {
             user: {
               ...user,
               token,
               loggedIn: true,
             },
+            loading: true,
           });
-          this.$store.commit('set', { loading: true });
+
+          if (data.ref_code) return this.continueLoan(this.loan_offer);
+
           this.$router.push('/dashboard');
         }
       } catch (err) {
@@ -227,8 +242,20 @@ export default {
       }
     },
   },
-  mounted() {
-    // this.successMsg();
+  created() {
+    this.$store.commit('set', { loading: true });
+    const { token } = this.$route.query;
+    if (token) {
+      const data = JSON.parse(atob(token));
+      const user = JSON.parse(localStorage.getItem('user'));
+      const isRegistered = localStorage.getItem('isRegistered');
+      this.auth.ref_code = data.token;
+      this.loan_offer = data.data;
+
+      if (user && user.loggedIn) return this.continueLoan(this.loan_offer);
+      else if (isRegistered) return this.$router.push(`/login?token=${token}`);
+    }
+    this.$store.commit('set', { loading: false });
   },
 };
 </script>

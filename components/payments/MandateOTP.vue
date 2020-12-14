@@ -13,18 +13,22 @@
       <hr />
     </div>
 
-    <form @submit.prevent="" class="text-center">
-      <img src="~/assets/img/sign.svg" class="my-3" height="150" />
-      <div class="form-group">
-        <!-- <label class="text-dark">Account Number</label> -->
-        <input
-          class="form-control bg-white custom-radius custom-shadow border-none"
-          v-model="otp"
-          autocomplete="off"
-          placeholder="Code must be a 4-digit number"
-        />
+    <form @submit.prevent="">
+      <div class="text-center">
+        <img src="~/assets/img/sign.svg" class="my-3" height="150" />
+        <div class="form-group">
+          <!-- <label class="text-dark">Account Number</label> -->
+          <input
+            class="form-control bg-white custom-radius custom-shadow border-none"
+            v-model="otp"
+            autocomplete="off"
+            placeholder="Code must be a 4-digit number"
+          />
+        </div>
       </div>
-      <a href="javascript:void(0)" @click="resendOTP" class="text-right"></a>
+      <a href="javascript:void(0)" @click="resendOTP" class="text-right"
+        >Didn't get it? Resend</a
+      >
     </form>
 
     <hr />
@@ -50,35 +54,6 @@ export default {
       const { userNames: full_name, otp } = this;
       if (!otp || otp.length !== 4 || !this.validateNumbers(otp))
         return this.$toastr.e('Invalid Code');
-
-      this.signContract({ full_name, otp });
-    },
-    async signContract(data) {
-      try {
-        const res = await this.$axios({
-          url: `/contracts/sign`,
-          method: 'post',
-          data,
-          headers: {
-            Authorization: `Bearer ${this.user.token}`,
-          },
-        });
-
-        Swal.fire({
-          icon: 'success',
-          text: res.data.message,
-          allowOutsideClick: false,
-          allowEnterKey: false,
-          allowEscapeKey: false,
-        });
-        this.$store.commit('set', { loading: false });
-
-        setTimeout(() => {
-          this.$router.push('/loan/active');
-        }, 3000);
-      } catch (e) {
-        this.catchErrors(e);
-      }
     },
     async resendOTP() {
       try {
