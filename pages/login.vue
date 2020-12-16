@@ -133,8 +133,19 @@ export default {
             loading: true,
           });
 
-          if (this.$route.query.token)
+          if (user.active && this.$route.query.token) {
+            this.showError(
+              'Forbidden!',
+              `You already have an active loan, you can't apply for a new loan at the moment!`,
+            );
+
+            this.$router.push('/dashboard');
+            return;
+          }
+
+          if (user.active && his.$route.query.token)
             return this.continueLoan(this.loan_offer);
+
           this.$router.push('/dashboard');
         }
       } catch (err) {

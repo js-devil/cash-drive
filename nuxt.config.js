@@ -74,7 +74,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'https://api.cashdrive.co/v1',
+    baseURL: 'http://52.177.172.188/api/v1',
     progress: true,
   },
 
