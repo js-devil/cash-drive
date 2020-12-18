@@ -44,20 +44,8 @@
 
 <script>
 export default {
-  methods: {
-    stopCamera() {
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: false })
-        .then(mediaStream => {
-          const stream = mediaStream;
-          const tracks = stream.getTracks();
-
-          tracks[0].stop;
-        });
-    },
-  },
   mounted() {
-    this.stopCamera();
+    this.stopWebCam();
   },
 };
 </script>

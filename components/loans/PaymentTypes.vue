@@ -84,7 +84,6 @@ export default {
 
         this.$store.commit('set', { loading: false });
       } catch (err) {
-        console.log(err);
         this.catchErrors(err);
       }
     },

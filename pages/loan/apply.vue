@@ -107,7 +107,6 @@ export default {
             token: res.data.token,
           };
         }
-        console.log(res.data);
       } catch (err) {
         this.catchErrors(err);
       }

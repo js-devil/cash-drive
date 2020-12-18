@@ -158,8 +158,6 @@ export default {
         confirm_password,
       } = this.auth;
 
-      console.log(ref_code);
-
       if (!first_name || !last_name) {
         this.errorMessage = 'Please enter your first and last names';
         return (this.error = true);

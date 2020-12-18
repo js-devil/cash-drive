@@ -94,7 +94,6 @@ export default {
           },
         });
 
-        console.log(res.data);
         this.$emit('next');
         this.$store.commit('set', { loading: false });
       } catch (err) {

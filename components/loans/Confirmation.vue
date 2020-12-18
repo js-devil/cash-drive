@@ -100,7 +100,6 @@ export default {
           this.$router.push('/loan/information');
         }
       } catch (err) {
-        console.log(err);
         this.catchErrors(err);
       }
     },

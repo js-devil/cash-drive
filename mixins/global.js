@@ -145,14 +145,13 @@ export default {
       this.$router.push('/loan/apply?status=0');
     },
     stopWebCam() {
-        navigator.mediaDevices.getUserMedia({video: true, audio: false})
-  .then(mediaStream => {
-    const stream = mediaStream;
-    const tracks = stream.getTracks();
-
-    tracks[0].stop;
-  })
-    }
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: false })
+        .then(mediaStream => {
+          const stream = mediaStream;
+          if(stream) stream.getTracks().forEach(track => track.stop());
+        });
+    },
   },
   data: () => ({
     months,

@@ -43,7 +43,7 @@
           <li class="nav-small-cap">
             <!-- <span class="hide-menu">Applications</span> -->
           </li>
-          <li class="sidebar-item">
+          <!-- <li class="sidebar-item">
             <a
               class="sidebar-link"
               href="javascript:void(0)"
@@ -51,7 +51,7 @@
               ><i class="feather icon-file-text"></i
               ><span class="hide-menu">Applications</span></a
             >
-          </li>
+          </li> -->
           <li class="sidebar-item">
             <n-link class="sidebar-link" to="/user/accounts"
               ><i class="feather icon-list"></i

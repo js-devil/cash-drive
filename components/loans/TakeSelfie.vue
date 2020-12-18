@@ -58,7 +58,7 @@ export default {
           video.play();
         })
         .catch(function (err) {
-          console.log('An error occurred: ' + err);
+          this.showError('Your camera won\'t start', 'This could be due to permissions, give access to the site to use your camera');
         });
     },
     clearPhoto() {
@@ -77,7 +77,7 @@ export default {
       context.imageSmoothingEnabled = false;
 
       const { width, height } = canvas;
-      console.log(width, height);
+
       if (width && height) {
         context.fillRect(0, 0, width, height);
         context.drawImage(video, 0, 0, width, height);
@@ -101,7 +101,7 @@ export default {
 
       return new File([u8arr], 'selfie.png', { type: mime });
     },
-    validateSubmit() {
+    async validateSubmit() {
       const { photo } = this;
 
       if (!photo)
@@ -110,9 +110,8 @@ export default {
           'No Photo',
         );
 
-      const selfie = this.dataURLtoFile(photo);
+      const selfie = await this.dataURLtoFile(photo);
 
-      console.log(selfie);
       this.uploadSelfie({ selfie });
     },
 

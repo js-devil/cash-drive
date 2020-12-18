@@ -46,7 +46,7 @@
                 class="rounded-circle"
                 width="40"
               />
-              <span class="ml-2 d-none d-lg-inline-block">
+              <span class="ml-2">
                 <span class="text-white font-weight-bold text-capitalize">{{
                   userNames
                 }}</span>
