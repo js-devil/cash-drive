@@ -222,7 +222,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody v-if="loans.length">
+                  <tbody v-if="recentLoans.length">
                     <tr v-for="loan in recentLoans" :key="loan.id">
                       <td class="border-top-0 px-4 py-4">
                         {{ formatAmount(loan.offer_amount) }}

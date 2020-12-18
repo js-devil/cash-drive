@@ -140,7 +140,7 @@ export default {
             );
 
             this.$router.push('/dashboard');
-            return;
+            return; 
           }
 
           if (user.active && his.$route.query.token)

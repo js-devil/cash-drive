@@ -129,6 +129,7 @@
           style="width: 150px; height: 40px"
         />
         <h4 class="mt-4">This token is invalid or has expired!</h4>
+        <p>Login to your account to resend the mail</p>
 
         <n-link to="/login" class="btn btn-primary mt-3"
           >Let's get you back</n-link
@@ -174,11 +175,11 @@ export default {
     },
   },
   mounted() {
-    // this.$store.commit('set', { loading: true });
-    // const { id } = this.$route.params;
-    // if (id) return this.getUserDetails(id);
-    // this.$store.commit('set', { loading: false });
-    // this.$router.push('/');
+    this.$store.commit('set', { loading: true });
+    const { id } = this.$route.params;
+    if (id) return this.getUserDetails(id);
+    this.$store.commit('set', { loading: false });
+    this.$router.push('/');
   },
   watch: {
     showSignModal() {

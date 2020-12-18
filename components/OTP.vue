@@ -57,6 +57,8 @@ export default {
       this.signContract({ full_name, otp });
     },
     async signContract(data) {
+      this.$store.commit('set', { loading: true });
+
       try {
         const res = await this.$axios({
           url: `/contracts/sign`,
@@ -74,7 +76,6 @@ export default {
           allowEnterKey: false,
           allowEscapeKey: false,
         });
-        this.$store.commit('set', { loading: false });
 
         setTimeout(() => {
           this.$router.push('/loan/active');

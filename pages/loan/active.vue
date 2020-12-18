@@ -64,7 +64,7 @@
                     @click="proceed"
                     class="btn btn-primary btn-darken-3 waves-effect waves-light"
                   >
-                    Continue
+                    {{ active_loan.refresh_contract ? 'Resend' : 'Continue' }}
                   </button>
 
                   <b-modal
@@ -352,6 +352,8 @@ export default {
   },
   mounted() {
     this.getActiveLoan();
+
+    this.stopWebCam();
 
     setTimeout(() => {
       this.getActiveLoan();
