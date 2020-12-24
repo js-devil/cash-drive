@@ -103,7 +103,7 @@
 
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="text-dark" for="cpwd">Password</label>
+                    <label class="text-dark" for="cpwd">Confirm Password</label>
                     <input
                       id="cpwd"
                       class="form-control"
@@ -121,8 +121,11 @@
                   </button>
                 </div>
                 <div
+                  v-if="auth.ref_code"
+                ></div>
+                <div
+                  v-else
                   class="col-lg-12 text-center mt-5"
-                  v-if="auth.ref_code === null"
                 >
                   Have an account?
                   <n-link to="/login" class="text-danger"> Sign In </n-link>
@@ -173,8 +176,8 @@ export default {
         return (this.error = true);
       }
 
-      if (!password || password.length !== 8) {
-        this.errorMessage = 'Password should have eight (8) characters';
+      if (!password || password.length < 8) {
+        this.errorMessage = 'Password should have at least eight (8) characters';
         return (this.error = true);
       }
 

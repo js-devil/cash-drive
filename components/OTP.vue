@@ -17,11 +17,30 @@
 
         <form @submit.prevent="" class="text-center">
           <img src="~/assets/img/sign.svg" class="my-3" height="150" />
+        
           <div class="form-group">
-            <!-- <label class="text-dark">Account Number</label> -->
+            <input
+              class="form-control bg-white custom-radius custom-shadow border-none"
+              v-model="first_name"
+              autocomplete="off"
+              placeholder="First Name"
+            />
+          </div>
+          
+          <div class="form-group">
+            <input
+              class="form-control bg-white custom-radius custom-shadow border-none"
+              v-model="last_name"
+              autocomplete="off"
+              placeholder="Last Name"
+            />
+          </div>
+
+          <div class="form-group">
             <input
               class="form-control bg-white custom-radius custom-shadow border-none"
               v-model="otp"
+              type="password"
               autocomplete="off"
               placeholder="Code must be a 4-digit number"
             />
@@ -46,14 +65,21 @@ export default {
   data() {
     return {
       otp: '',
+      first_name: '',
+      last_name: '',
     };
   },
   methods: {
     validateSubmit() {
-      const { userNames: full_name, otp } = this;
+      const { first_name, last_name, otp } = this;
+      
       if (!otp || otp.length !== 4 || !this.validateNumbers(otp))
         return this.$toastr.e('Invalid Code');
 
+      if(!first_name || !last_name) return this.$toastr.e('Please enter your first name and last name')
+
+      const full_name = `${first_name} ${last_name}`.toLowerCase();
+    
       this.signContract({ full_name, otp });
     },
     async signContract(data) {
@@ -68,10 +94,13 @@ export default {
             Authorization: `Bearer ${this.user.token}`,
           },
         });
+        
+        this.$store.commit('set', { loading: false });
 
         Swal.fire({
           icon: 'success',
-          text: res.data.message,
+          title: res.data.message,
+          text: 'You will now be redirected to the active loan page',
           allowOutsideClick: false,
           allowEnterKey: false,
           allowEscapeKey: false,
@@ -79,6 +108,7 @@ export default {
 
         setTimeout(() => {
           this.$router.push('/loan/active');
+          this.$store.commit('set', { loading: true });
         }, 3000);
       } catch (e) {
         this.catchErrors(e);

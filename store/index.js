@@ -15,13 +15,14 @@ export const mutations = {
     state.loan_application = { ...state.loan_application, ...data };
   },
 };
-
 export const getters = {
   isAuthenticated(state) {
-    return state.auth ? state.auth.loggedIn : false;
+    return state.auth.loggedIn
   },
+
   loggedInUser(state) {
-    return state.auth ? state.auth.user : null;
+    return state.auth.user
   },
+
   showLoader: state => state.loading,
 };

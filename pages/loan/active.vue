@@ -41,13 +41,13 @@
                     Continue
                   </button>
                   <div v-else-if="totalSteps < 5 && active_loan.status == 4">
-                    <button
+                    <!-- <button
                       v-if="!active_loan.card_setup"
                       @click="openPaystack"
                       class="btn btn-danger btn-darken-3 waves-effect waves-light"
                     >
                       Setup Card
-                    </button>
+                    </button> -->
                     <!-- totalSteps < 6 && active_loan.payment_type !== 'paystack' -->
 
                     <button
@@ -81,6 +81,7 @@
                       :loan="active_loan"
                       :key="mandateComp + 'av'"
                       @close="hideModal"
+                      @done="mandateDone"
                     ></mandate>
                   </b-modal>
 
@@ -336,6 +337,16 @@ export default {
         `,
       });
     },
+    mandateDone() {
+      this.hideModal();
+      this.getActiveLoan();
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Successful!',
+        text: 'Please check your mail to complete the direct debit process'
+      });
+    }
   },
   computed: {
     levels() {
@@ -352,8 +363,6 @@ export default {
   },
   mounted() {
     this.getActiveLoan();
-
-    this.stopWebCam();
 
     setTimeout(() => {
       this.getActiveLoan();

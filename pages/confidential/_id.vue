@@ -8,7 +8,8 @@
         <header class="bg-primary text-center">
           <h3 class="text-white font-weight-bolder pt-5">Loan Agreement</h3>
         </header>
-        <main class="bg-white px-3 py-3 text-center">
+        
+        <main class="bg-white px-3 py-2 text-center" v-if="loggedIn">
           <p>
             THIS LOAN AGREEMENT dated this
             <span class="underline">{{ thisDay }}</span>
@@ -19,14 +20,14 @@
 
           <h6>BETWEEN</h6>
 
-          <div class="w-50 mt-5 mx-auto">
+          <div class="w-50 mt-4 mx-auto">
             <h5 class="mb-0 underline px-3" style="font-size: 24px">
               CashDrive LTD
             </h5>
             <span class="font-weight-bolder">(The "Lender")</span>
           </div>
 
-          <div class="w-50 my-4 mx-auto">
+          <div class="w-50 my-3 mx-auto">
             <h4>AND</h4>
           </div>
 
@@ -70,15 +71,70 @@
               >
                 Sign
               </button>
-              <button
+              <!-- <button
                 class="btn-sm btn-danger border-0 py-2"
                 style="width: 100px"
               >
                 Reject
-              </button>
+              </button> -->
             </div>
           </div>
         </main>
+        
+        <main v-else class="bg-white">
+
+          <div class="mx-5 bg-white">
+            <div class="p-3">
+              <h4 class="my-3 text-center">Sign in to view this contract</h4>
+              <b-alert
+                variant="danger"
+                dismissible
+                fade
+                :show="!!errorMessage"
+                @dismissed="errorMessage = ''"
+              >
+                {{ errorMessage }}
+              </b-alert>
+
+              <form class="mt-4" @submit.prevent="validateSubmit">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label class="text-dark" for="email">Email</label>
+                      <input
+                        id="email"
+                        class="form-control bg-white custom-radius custom-shadow border-0"
+                        v-model="auth.email"
+                        type="email"
+                        :disabled="loading"
+                        placeholder="enter your email address"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label class="text-dark" for="pwd">Password</label>
+                      <input
+                        id="pwd"
+                        class="form-control bg-white custom-radius custom-shadow border-0"
+                        type="password"
+                        :disabled="loading"
+                        v-model="auth.password"
+                        placeholder="enter your password"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-12 text-center">
+                    <button type="submit" class="btn btn-block btn-dark">
+                      {{ loading ? 'Signing in...' : 'Sign In' }}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </main>
+        
         <footer class="bg-secondary px-3 d-flex justify-content-between">
           <img src="/img/logo.png" alt="homepage" height="60" class="mt-4" />
 
@@ -150,6 +206,9 @@ export default {
         offer_amount: 10000,
         repayment_date: new Date(),
       },
+      errorMessage: '',
+      loading: false,
+      loggedIn: false,
       error: false,
       showSignModal: false,
     };
@@ -173,13 +232,67 @@ export default {
         this.$store.commit('set', { loading: false });
       }
     },
+    
+    validateSubmit() {
+      const { email, password } = this.auth;
+
+      if (!email || !this.validateEmail(email)) {
+        this.errorMessage = 'Enter a valid email address';
+        return;
+      }
+
+      if (!password || password.length < 8) {
+        this.errorMessage =
+          'Password should have at least eight (8) characters';
+        return;
+      }
+
+      this.errorMessage = '';
+
+      this.login({ email, password });
+    },
+    async login(data) {
+      this.loading = true;
+
+      try {
+        const res = await this.$axios({
+          method: 'POST',
+          url: '/signin',
+          data,
+        });
+
+        this.loading = false;
+        const { data: user, token, status } = res.data;
+        if (status) {
+          this.$toastr.s('', 'Welcome');
+
+          localStorage.setItem(
+            'user',
+            JSON.stringify({ ...user, token, loggedIn: true }),
+          );
+
+          this.$store.commit('set', {
+            user: {
+              ...user,
+              token,
+              loggedIn: true,
+            },
+          });
+
+          this.loggedIn = true;
+        }
+      } catch (err) {
+        this.loading = false;
+        this.catchErrors(err);
+      }
+    },
   },
-  mounted() {
+  created() {
     this.$store.commit('set', { loading: true });
     const { id } = this.$route.params;
     if (id) return this.getUserDetails(id);
     this.$store.commit('set', { loading: false });
-    this.$router.push('/');
+    this.$router.push('/login');
   },
   watch: {
     showSignModal() {
@@ -237,7 +350,7 @@ body {
 }
 
 .error-main {
-  margin-top: 200px;
+  margin-top: 150px;
   text-align: center;
   background-color: #fff;
   box-shadow: 0px 10px 10px -10px #5d6572;

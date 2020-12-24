@@ -3,7 +3,7 @@ const imageUrl =
   'https://upload.wikimedia.org/wikipedia/commons/0/03/Forbidden_Symbol_Transparent.svg';
 import Swal from 'sweetalert2';
 
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   methods: {
@@ -47,7 +47,10 @@ export default {
     },
 
     sessionExpired() {
-      localStorage.removeItem('user');
+      const user = { user: {}, loggedIn: false };
+      localStorage.setItem('user', JSON.stringify(user));
+      this.$store.commit('set', user);
+      
       localStorage.setItem('isRegistered', true);
       this.$router.push('/login');
 
@@ -69,7 +72,10 @@ export default {
         confirmButtonText: 'Yes',
       }).then(result => {
         if (result.value) {
-          localStorage.removeItem('user');
+          const user = { user: {}, loggedIn: false };
+          localStorage.setItem('user', JSON.stringify(user));
+          this.$store.commit('set', user);
+          
           localStorage.setItem('isRegistered', true);
           this.$router.push('/login');
 
@@ -157,6 +163,7 @@ export default {
     months,
   }),
   computed: {
+    ...mapGetters(['isAuthenticated', 'loggedInUser']),
     ...mapState(['user']),
     userNames() {
       return `${this.user.first_name} ${this.user.last_name}`.toLowerCase();
