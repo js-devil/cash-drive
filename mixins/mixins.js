@@ -75,15 +75,6 @@ const Mixin = {
   validateEmail: email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
   validatePhone: value => /^\d+$/.test(value) && value.length === 11,
   validateNumbers: value => /^\d+$/.test(value),
-  validatePlateNumber(value) {
-    // const start = value.slice(0, 3);
-    // const end = value.slice(-2);
-
-    // const mid = value.slice(3, 6);
-
-    // return /^\d+$/.test(mid) && /^[a-z]+$/i.test(start + end);
-    return true;
-  },
   formatAmount: amount =>
     amount
       ? Naira + parseFloat(parseFloat(amount).toFixed(2)).toLocaleString('en')
